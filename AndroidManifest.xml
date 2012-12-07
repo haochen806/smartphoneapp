@@ -1,0 +1,67 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.termproject"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="15" />
+ <!-- android:theme="@style/AppTheme"  -->
+ 
+  <uses-feature android:name="android.hardware.camera" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+       >
+        <activity
+            android:name=".WelcomeActivity"
+            android:label="@string/title_activity_welcome" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ViewAllFriendsActivity"
+            android:theme="@android:style/Theme.NoTitleBar"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.ALLFRIENDS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ViewFriendActivity"
+            android:label="@string/title_activity_view_friend" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEWFRIEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SentTextActivity"
+            android:label="@string/title_activity_sent_text" >
+            <intent-filter>
+                <action android:name="android.intent.action.SENTTEXT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AddFriendActivity"
+            android:label="@string/title_activity_add_friend" >
+            <intent-filter>
+                <action android:name="android.intent.action.ADDFRIEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>

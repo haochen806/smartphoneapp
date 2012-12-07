@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+    <Button
+        android:id="@+id/leavemessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="leavemessage" />
+
+    <Button
+        android:id="@+id/takepicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="take picture" />
+
+    <Button
+        android:id="@+id/senttext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sent text" />
+
+    <Button
+        android:id="@+id/edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="edit" />
+
+    <TextView
+        android:id="@+id/telephoneNumText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="telephoneNumText"
+        tools:context=".ViewFriendActivity" />
+
+    <TextView
+        android:id="@+id/AddressText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="AddressText"
+        tools:context=".ViewFriendActivity" />
+
+    <TextView
+        android:id="@+id/lastNameView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lastNameView"
+        tools:context=".ViewFriendActivity" />
+
+    <TextView
+        android:id="@+id/firstNameView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="firstNameView"
+        tools:context=".ViewFriendActivity" />
+
+    <TextView
+        android:id="@+id/EmailText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EmailText"
+        tools:context=".ViewFriendActivity" />
+     
+     <ImageView 
+      android:layout_height="wrap_content" 
+      android:layout_width="fill_parent" 
+      android:visibility="visible"
+      android:id="@+id/imageView1" />
+
+   	<ListView
+   	    android:id="@+id/messagelistview"
+   	    android:layout_width="fill_parent"
+   	    android:layout_height="wrap_content" >
+
+   	</ListView>
+
+</LinearLayout>
+</ScrollView>
