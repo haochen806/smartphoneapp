@@ -73,16 +73,17 @@ public class AddFriendActivity extends Activity {
 				iconByte = iconCursor.getIconBytes();
 				iconBitmap = BitmapFactory.decodeByteArray(iconByte,0,iconByte.length);
 		    	icon.setImageBitmap(iconBitmap);
+			} else {
+				icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_icon));
 			}
         }
         else {
         	Log.d(TAG, "bundle is null");
         	addButton = (Button)findViewById(R.id.AddFriendButton);
+        	icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_icon));
         }
         
     	addButton.setOnClickListener(new addFriendOnClickListener());
-    	
-    	
     	
                
     }

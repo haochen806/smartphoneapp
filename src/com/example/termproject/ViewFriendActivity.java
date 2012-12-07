@@ -82,6 +82,8 @@ public class ViewFriendActivity extends Activity {
 	    	iconData = iconCursor.getIconBytes();
 	    	iconBitmap = BitmapFactory.decodeByteArray(iconData,0,iconData.length);
 	    	mImageView.setImageBitmap(iconBitmap);
+	    } else {
+	    	mImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_icon));
 	    }
 	      
         Button sentText = (Button) findViewById(R.id.senttext);
