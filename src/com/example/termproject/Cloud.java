@@ -33,8 +33,8 @@ public class Cloud {
 		HttpResponse signUpResponse = null;
 		try {
 			List<NameValuePair> postData = new ArrayList<NameValuePair>(2);
-			postData.add(new BasicNameValuePair("username", name));
-			postData.add(new BasicNameValuePair("password", password));
+			postData.add(new BasicNameValuePair("usrname", name));
+			postData.add(new BasicNameValuePair("pwd", password));
 			signUpPost.setEntity(new UrlEncodedFormEntity(postData));
 			
 			Log.d("cloud", name);

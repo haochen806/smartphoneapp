@@ -37,7 +37,7 @@ public class SignInActivity extends Activity{
 						Cloud cloud = new Cloud();
 						String response = cloud.signToServer(userName, password, AplicationConstant.signInUri);
 						if(response.equals(AplicationConstant.singinOK)) {
-							Intent intent = new Intent("android.intent.action.VIEWFRIEND");
+							Intent intent = new Intent("android.intent.action.ALLFRIENDS");
 							startActivity(intent);
 						} else {
 							AlertDialog.Builder alert = new AlertDialog.Builder(SignInActivity.this);
