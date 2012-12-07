@@ -9,6 +9,8 @@
     <string name="title_activity_sent_text">SentTextActivity</string>
     <string name="title_activity_add_friend">AddFriendActivity</string>
     <string name="title_activity_add_people">AddPeopleActivity</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
+    <string name="title_activity_signup">SignupActivity</string>
     <string name="create_friends_table">"
 CREATE TABLE friends (_id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, phoneNumber TEXT,email TEXT, address TEXT);
 CREATE TABLE textmessage (_id INTEGER PRIMARY KEY AUTOINCREMENT, friendId INTEGER, message TEXT);

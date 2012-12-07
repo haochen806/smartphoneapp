@@ -27,7 +27,7 @@ public class WelcomeActivity extends Activity {
     				
     				@Override
     				public void onClick(View v) {
-    					startActivity(new Intent("android.intent.action.ALLFRIENDS"));
+    					startActivity(new Intent("android.intent.action.SIGNIN"));
     				}
     			}
     		);
