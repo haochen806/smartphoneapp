@@ -92,11 +92,10 @@ public class ViewFriendActivity extends Activity {
 	    _id = extras.getString("DBid");
         Cloud.setFriendId(Integer.parseInt(_id));
         
-
-        
+                
         setContentView(R.layout.activity_view_friend);
         
-
+        tryPicView = (ImageView)findViewById(R.id.imageTry);
         layoutInflater = getLayoutInflater();
         mainLayout = (LinearLayout)findViewById(R.id.layout01);
         
@@ -114,10 +113,10 @@ public class ViewFriendActivity extends Activity {
         map = Cloud.getMessageData(key, type, db);
         tmpcursor = db.getAllTmpMessage();
         Log.d(TAG, "TMPcount is" + tmpcursor.getCount());
-        for(int i = 0; i < tmpcursor.getCount(); i++) {
+       /* for(int i = 0; i < tmpcursor.getCount(); i++) {
         	tmpcursor.moveToPosition(i);
         	Toast.makeText(this, (new String(tmpcursor.getData())).trim(), Toast.LENGTH_LONG).show();
-        }
+        }*/
         ///////////////
         
         tryText = (TextView)findViewById(R.id.tryMessage);
@@ -353,7 +352,7 @@ public class ViewFriendActivity extends Activity {
 			String response = null;
 			try {
 				Log.d(TAG, "before upload message");
-				response = Cloud.uploadMessage(ApplicationConstant.user, Integer.parseInt(_id), pictureData, ApplicationConstant.imageType);
+				response = Cloud.uploadMessage(ApplicationConstant.user, Integer.parseInt(_id), pictureData, ApplicationConstant.imageType, db);
 				Log.d(TAG, "after upload message");
 			} catch (Exception e) {
 				Log.d("upload", "message exception");
@@ -394,16 +393,17 @@ public class ViewFriendActivity extends Activity {
 	        	 Log.d(TAG, "Bitmap is null");
 	         }
 	         
-	         tryPicView = (ImageView)findViewById(R.id.imageTry);
-	         tryPicView.setImageBitmap(bmp);
-	         tryPicView.refreshDrawableState();
+	         //tryPicView.setImageBitmap(bmp);
+	         //tryPicView.refreshDrawableState();
 	     }
 		
 	}
 
 	
 	private void inflateElement(TmpCursor tmpcursor){
+		
 		for(int i=0; i< tmpcursor.getCount();i++){
+			tmpcursor.moveToPosition(i);
 			if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.meassgeType))){
 				byte[] Data = tmpcursor.getData();
 				String value = new String(Data);
@@ -412,16 +412,19 @@ public class ViewFriendActivity extends Activity {
 				mainLayout.addView(newTextView);
 			}
 			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.imageType))){
+				Log.d(TAG, "in inflate image !!!!!!!!!!!");
 				byte[] Data = tmpcursor.getData();
+				Toast.makeText(this, Integer.toString(Data.length), Toast.LENGTH_LONG).show();
+				
 				imageBitmap = BitmapFactory.decodeByteArray(Data,0,Data.length);
 				ImageView newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);		    	
 				newImgView.setImageBitmap(imageBitmap);
 				mainLayout.addView(newImgView);
+				//tryPicView.setImageBitmap(imageBitmap);
 			}
 			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.audioType))){
 				
 			}
-			tmpcursor.moveToNext();
 		}
 	}
 

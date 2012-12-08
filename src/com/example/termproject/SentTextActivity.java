@@ -42,9 +42,9 @@ public class SentTextActivity extends Activity {
 				data = editMessage.getText().toString().getBytes();
 				UploadMessage uploader = new UploadMessage();
 				uploader.execute();
-				//Intent intent = new Intent("android.intent.action.VIEWFRIEND");
-				//intent.putExtra("DBid", intentId);
-				//startActivity(intent);
+				Intent intent = new Intent("android.intent.action.VIEWFRIEND");
+				intent.putExtra("DBid", intentId);
+				startActivity(intent);
 			}
 		});
     }
@@ -57,7 +57,7 @@ public class SentTextActivity extends Activity {
 			String response = null;
 			try {
 				Log.d(TAG, "before upload message");
-				response = Cloud.uploadMessage(ApplicationConstant.user, friendId, data, ApplicationConstant.meassgeType);
+				response = Cloud.uploadMessage(ApplicationConstant.user, friendId, data, ApplicationConstant.meassgeType, db);
 				Log.d(TAG, "after upload message");
 			} catch (Exception e) {
 				Log.d("upload", "message exception");
@@ -73,8 +73,8 @@ public class SentTextActivity extends Activity {
 			}
 		}
 
-		@Override
-		protected void onPostExecute(String result) {
+		//@Override
+		/*protected void onPostExecute(String result) {
 			ArrayList<String> key = new ArrayList<String>();
 			ArrayList<String> type = new ArrayList<String>();
 			Map<String, byte[]> map;
@@ -89,7 +89,7 @@ public class SentTextActivity extends Activity {
 				Toast.makeText(SentTextActivity.this, s, Toast.LENGTH_LONG).show();
 			}
 			
-		}
+		}*/
 		
 		
 	}
