@@ -50,6 +50,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ViewAllFriendsActivity extends FragmentActivity {
 
+	private static final String TAG = "ViewAllFriendActivity";
+	
 	static final String[] people = { "Lily", "Lucy", "HanMeimei", "LiLei" };
 	ArrayList<String> array = new ArrayList<String>();
 	ArrayList<Integer> index = new ArrayList<Integer>();
@@ -366,7 +368,9 @@ public class ViewAllFriendsActivity extends FragmentActivity {
             //mFineProviderButton.setBackgroundResource(R.drawable.button_inactive);
            // mBothProviderButton.setBackgroundResource(R.drawable.button_active);
             // Request updates from both fine (gps) and coarse (network) providers.
-            gpsLocation = requestUpdatesFromProvider(
+        	Log.d(TAG, "start location Ok!");
+        	
+        	gpsLocation = requestUpdatesFromProvider(
                     LocationManager.GPS_PROVIDER, R.string.not_support_gps);
             networkLocation = requestUpdatesFromProvider(
                     LocationManager.NETWORK_PROVIDER, R.string.not_support_network);
