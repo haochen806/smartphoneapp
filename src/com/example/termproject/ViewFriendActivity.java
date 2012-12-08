@@ -102,7 +102,7 @@ public class ViewFriendActivity extends Activity {
         Log.d(TAG, "TMPcount is" + tmpcursor.getCount());
         for(int i = 0; i < tmpcursor.getCount(); i++) {
         	tmpcursor.moveToPosition(i);
-        	Toast.makeText(this, new String(tmpcursor.getData()), Toast.LENGTH_LONG).show();
+        	Toast.makeText(this, (new String(tmpcursor.getData())).trim(), Toast.LENGTH_LONG).show();
         }
         ///////////////
         
