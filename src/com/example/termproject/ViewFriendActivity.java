@@ -2,6 +2,7 @@ package com.example.termproject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.example.termproject.FriendsDatabase.FriendsCursor;
 import com.example.termproject.FriendsDatabase.IconCursor;
@@ -60,6 +61,10 @@ public class ViewFriendActivity extends Activity {
 	private ImageView mImageView;
 	Bitmap mImageBitmap;
 	byte[] pictureData;
+	
+	Map<String, byte[]> map;
+	
+	ImageView tryPicView;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -324,6 +329,29 @@ public class ViewFriendActivity extends Activity {
 	         key = new ArrayList<String>();
 	         type = new ArrayList<String>();
 	         Cloud.getMessage(AplicationConstant.user, Integer.parseInt(_id), key, type);
+	         map = Cloud.getMessageData(key);
+	         byte[] tryPic = map.get(key.get(0));
+	         
+	         Log.d(TAG, "SIZE IS " + key.size());
+	         
+	         for(int i = 0; i < key.size(); i++) {
+	        	 Log.d(TAG, "SIZE key IS " + key.get(i));
+	         }
+	         
+	         if(tryPic == null) {
+	        	 Log.d(TAG, "(tryPic is null");
+	         }
+	         Bitmap bmp = BitmapFactory.decodeByteArray(tryPic, 0, tryPic.length);
+	         
+	         if(bmp != null) {
+	        	 Log.d(TAG, "Bitmap is not null");
+	         } else {
+	        	 Log.d(TAG, "Bitmap is null");
+	         }
+	         
+	         tryPicView = (ImageView)findViewById(R.id.imageTry);
+	         tryPicView.setImageBitmap(bmp);
+	         tryPicView.refreshDrawableState();
 	     }
 		
 	}

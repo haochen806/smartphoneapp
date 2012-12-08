@@ -2,10 +2,14 @@ package com.example.termproject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -129,7 +133,7 @@ public class Cloud {
 				//Log.d(TAG, "line is  " + line);
 				String[] keyAndType = line.split(";");
 				key.add(keyAndType[0]);
-				key.add(keyAndType[1]);
+				type.add(keyAndType[1]);
 				Log.d(TAG, " line is not null");
 				Log.d(TAG, "key  " + keyAndType[0]);
 				Log.d(TAG,"type  " + keyAndType[1]);
@@ -142,7 +146,32 @@ public class Cloud {
 		}
 	}
 	
-	public static void getMessageData(ArrayList<String> key) {
+	public static Map<String, byte[]> getMessageData(ArrayList<String> key) {
+		Map<String, byte[]> map = new HashMap<String, byte[]>();
+		HttpClient client = new DefaultHttpClient();
+		HttpPost postRequest = null;
+		HttpResponse response = null;
+		for(int i = 0; i < key.size(); i++) {
+			String currentKey = key.get(i);
+			postRequest = new HttpPost(AplicationConstant.getMessageData);
+			try {
+				List<NameValuePair> postData = new ArrayList<NameValuePair>();
+				postData.add(new BasicNameValuePair("id", currentKey));
+				postRequest.setEntity(new UrlEncodedFormEntity(postData));
+				response = client.execute(postRequest);
+				InputStream inputStream = response.getEntity().getContent();
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				byte[] data = new byte[1024];
+				int length = 0;
+				while ((length = inputStream.read(data))!=-1) {
+				    	out.write(data, 0, length);
+				}
+				map.put(currentKey, out.toByteArray());
+			} catch(Exception e) {
+				Log.e(TAG, e.toString());
+			}
+		}
 		
+		return map;
 	}
 }
