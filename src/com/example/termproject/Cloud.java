@@ -61,7 +61,7 @@ public class Cloud {
 		
 	}
 	
-	public static String uploadMessage(String userName, int friendId, byte[] data, int type) {
+	public static String uploadMessage(String userName, int friendId, byte[] data, int type, FriendsDatabase db) {
 		HttpClient client = new DefaultHttpClient();
 		HttpPost messagePost = new HttpPost(ApplicationConstant.postMessage);
 		HttpResponse messageResponse = null;
@@ -131,8 +131,15 @@ public class Cloud {
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(messageResponse.getEntity().getContent()));
 			line = reader.readLine();
+			/*///////######
 			while(line != null) {
-				//Log.d(TAG, "line is  " + line);
+				buffer.append(line);
+				line = reader.readLine();
+			}
+			Log.e(TAG, buffer.toString());
+			/////////#######*/
+			while(line != null) {
+				Log.d(TAG, "line is  " + line);
 				String[] keyAndType = line.split(";");
 				key.add(keyAndType[0]);
 				type.add(keyAndType[1]);
@@ -142,7 +149,7 @@ public class Cloud {
 				buffer.append(line);
 				line = reader.readLine();
 			}
-			//Log.e(TAG, buffer.toString());
+			
 		} catch(Exception e) {
 			Log.e(TAG, e.toString() + "get Message");
 		}
@@ -171,7 +178,7 @@ public class Cloud {
 				
 				
 				
-				db.addTmpData(friendId, type.get(i), data);
+				db.addTmpData(friendId, type.get(i), out.toByteArray());
 				//Log.d(TAG, "get message data get here!!!!");
 				
 				map.put(currentKey, out.toByteArray());
