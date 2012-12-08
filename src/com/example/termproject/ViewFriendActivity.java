@@ -87,7 +87,8 @@ public class ViewFriendActivity extends Activity {
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    	Log.d("Tag", "in on create!");
+    	super.onCreate(savedInstanceState);
 	    
         Bundle extras = getIntent().getExtras();
 	    _id = extras.getString("DBid");
@@ -219,8 +220,9 @@ public class ViewFriendActivity extends Activity {
 
     @Override
     protected void onResume() {
-        super.onResume();
-        Log.d("Tag", "in on Resume!");
+    	Log.d("Tag", "in on Resume!");
+    	super.onResume();
+        
         tmpcursor = db.getAllTmpMessage();
         
         if(tmpcursor!=null && tmpcursor.getCount()!=0){       	
@@ -232,15 +234,30 @@ public class ViewFriendActivity extends Activity {
 	@Override
 	protected void onRestart() {
 		// TODO Auto-generated method stub
+		Log.d("Tag", "in on Restart!");
 		super.onRestart();
 		
-		Log.d("Tag", "in on Restart!");
+		
         tmpcursor = db.getAllTmpMessage();
         
         if(tmpcursor!=null && tmpcursor.getCount()!=0){       	
         	addLayout.removeAllViews();
         	inflateElement(tmpcursor);
         }      
+	}
+
+	
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		Log.d("Tag", "in on start!");
+		super.onStart();
+		 tmpcursor = db.getAllTmpMessage();
+	        
+	        if(tmpcursor!=null && tmpcursor.getCount()!=0){       	
+	        	addLayout.removeAllViews();
+	        	inflateElement(tmpcursor);
+	        }      
 	}
 
 	@Override
