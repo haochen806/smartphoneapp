@@ -34,9 +34,9 @@ public class SignInActivity extends Activity{
 						// TODO Auto-generated method stub
 						String userName = nameText.getText().toString();
 						String password = passwordText.getText().toString();
-						String response = Cloud.signToServer(userName, password, AplicationConstant.signInUri);
-						if(response.equals(AplicationConstant.singinOK)) {
-							AplicationConstant.user = userName;
+						String response = Cloud.signToServer(userName, password, ApplicationConstant.signInUri);
+						if(response.equals(ApplicationConstant.singinOK)) {
+							ApplicationConstant.user = userName;
 							Intent intent = new Intent("android.intent.action.ALLFRIENDS");
 							startActivity(intent);
 						} else {

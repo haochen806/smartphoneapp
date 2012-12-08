@@ -44,12 +44,12 @@ public class SignupActivity extends Activity {
 					String conf = confirmation.getText().toString();
 					if(pw.equals(conf)) {
 						Log.d("singup", "before");
-						String result = Cloud.signToServer(userName, pw, AplicationConstant.signUpUri);
+						String result = Cloud.signToServer(userName, pw, ApplicationConstant.signUpUri);
 						Log.d("singup", "after");
 						if(result == null) {
 							Log.d("singup", "result is null");
 						}
-						if(result.equals(AplicationConstant.singUpOK)) {
+						if(result.equals(ApplicationConstant.singUpOK)) {
 							Intent intent = new Intent("android.intent.action.ALLFRIENDS");
 							startActivity(intent);
 						} else {

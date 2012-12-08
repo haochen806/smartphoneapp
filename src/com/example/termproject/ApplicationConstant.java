@@ -1,5 +1,5 @@
 package com.example.termproject;
-public class AplicationConstant {
+public class ApplicationConstant {
 	public static final String signUpUri = "http://autographbook641.appspot.com/signup";
 	public static final String signInUri = "http://autographbook641.appspot.com/signin";
 	public static final String postMessage = "http://autographbook641.appspot.com/postmessage";
@@ -12,8 +12,11 @@ public class AplicationConstant {
 	public static final String singUpOK = "OK" ;
 	public static final String singUpCancel = "";
 	public static String user = null;
+	
+	public static final int meassgeType = 0;
 	public static final int imageType = 1;
 	public static final int audioType = 2;
+	
 	public static final String messageUploadResponseOk = "OK";
 	
 }

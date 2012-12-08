@@ -61,7 +61,7 @@ public class Cloud {
 	
 	public static String uploadMessage(String userName, int friendId, byte[] data, int type) {
 		HttpClient client = new DefaultHttpClient();
-		HttpPost messagePost = new HttpPost(AplicationConstant.postMessage);
+		HttpPost messagePost = new HttpPost(ApplicationConstant.postMessage);
 		HttpResponse messageResponse = null;
 		String result = null;
 		//StringBuffer buffer = new StringBuffer();
@@ -108,20 +108,20 @@ public class Cloud {
 	
 	public static void getMessage(String userName, int friendId, ArrayList<String> key, ArrayList<String> type) {
 		HttpClient client = new DefaultHttpClient();
-		HttpPost getMessage = new HttpPost(AplicationConstant.getMessage);
+		HttpPost getMessage = new HttpPost(ApplicationConstant.getMessage);
 		HttpResponse messageResponse = null;
 		String line = null;
 		StringBuffer buffer = new StringBuffer();
 		
 		Log.d(TAG, "in cloud get message");
 		
-		Log.d(TAG, AplicationConstant.getMessage);
+		Log.d(TAG, ApplicationConstant.getMessage);
 		Log.d(TAG, "username is  " + userName);
 		Log.d(TAG, "friendId is  "+ friendId);
 		
 		try {
 			List<NameValuePair> postData = new ArrayList<NameValuePair>();
-			postData.add(new BasicNameValuePair("usrname", AplicationConstant.user));
+			postData.add(new BasicNameValuePair("usrname", ApplicationConstant.user));
 			postData.add(new BasicNameValuePair("friendId", Integer.toString(friendId)));
 			getMessage.setEntity(new UrlEncodedFormEntity(postData));
 			messageResponse = client.execute(getMessage);
@@ -153,7 +153,7 @@ public class Cloud {
 		HttpResponse response = null;
 		for(int i = 0; i < key.size(); i++) {
 			String currentKey = key.get(i);
-			postRequest = new HttpPost(AplicationConstant.getMessageData);
+			postRequest = new HttpPost(ApplicationConstant.getMessageData);
 			try {
 				List<NameValuePair> postData = new ArrayList<NameValuePair>();
 				postData.add(new BasicNameValuePair("id", currentKey));

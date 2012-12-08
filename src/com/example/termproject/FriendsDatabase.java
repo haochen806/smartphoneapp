@@ -14,7 +14,7 @@ import android.util.Log;
 
 public class FriendsDatabase extends SQLiteOpenHelper {
 	private static final String TABLE_NAME = "friends";
-	private static final int DATABASE_VERSION = 8;
+	private static final int DATABASE_VERSION = 9;
 	private static final String COLUMN_FIRSTNAME = "firstName";
 	private static final String COLUMN_LASTNAME = "lastName";
 	private static final String COLUMN_PHONENUMBER = "phoneNumber";
@@ -75,7 +75,8 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 	
 	public static class FriendsCursor extends SQLiteCursor {
 		private static final String QUERY = "SELECT friends._id, friends.firstName, friends.lastName "  +
-				"FROM friends";
+				"FROM friends " +
+				"WHERE username = ";
 		
 		private static final String QUERYAFRIEND = "SELECT * "  +
 				"FROM friends " +
@@ -257,6 +258,7 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 	
 	public void addFriend(AFriend aFriend) {
 		ContentValues ele = makeEle(aFriend);
+		ele.put("username", ApplicationConstant.user);
 		
 		try{
 			getWritableDatabase().insert(TABLE_NAME, null, ele);
@@ -304,7 +306,7 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 	 }
 	 
 	 public FriendsCursor getFriends() {
-	        String sql = FriendsCursor.QUERY;
+	        String sql = FriendsCursor.QUERY + "'"+ApplicationConstant.user+"'";
 	        SQLiteDatabase d = getReadableDatabase();
 	        FriendsCursor c = (FriendsCursor) d.rawQueryWithFactory(
 	            new FriendsCursor.Factory(),

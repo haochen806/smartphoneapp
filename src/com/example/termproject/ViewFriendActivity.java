@@ -312,13 +312,13 @@ public class ViewFriendActivity extends Activity {
 			String response = null;
 			try {
 				Log.d(TAG, "before upload message");
-				response = Cloud.uploadMessage(AplicationConstant.user, Integer.parseInt(_id), pictureData, AplicationConstant.imageType);
+				response = Cloud.uploadMessage(ApplicationConstant.user, Integer.parseInt(_id), pictureData, ApplicationConstant.imageType);
 				Log.d(TAG, "after upload message");
 			} catch (Exception e) {
 				Log.d("upload", "message exception");
 			}
 			
-			if(response.equals(AplicationConstant.messageUploadResponseOk)) {
+			if(response.equals(ApplicationConstant.messageUploadResponseOk)) {
 				Log.d(TAG, "upload message Ok!");
 				return "Ok";
 			}
@@ -332,7 +332,7 @@ public class ViewFriendActivity extends Activity {
 	     protected void onPostExecute(String result) {
 	         key = new ArrayList<String>();
 	         type = new ArrayList<String>();
-	         Cloud.getMessage(AplicationConstant.user, Integer.parseInt(_id), key, type);
+	         Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
 	         map = Cloud.getMessageData(key);
 	         byte[] tryPic = map.get(key.get(0));
 	         
