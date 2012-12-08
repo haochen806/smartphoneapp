@@ -24,6 +24,8 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 	
 	private static final String TAG = "FriendsDatabase";
 	
+	
+	
 	public FriendsDatabase(Context context) {
 		super(context, TABLE_NAME, null, DATABASE_VERSION);
 		this.mContext = context;
@@ -98,7 +100,7 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 	     }
 		 
 	      public long getColFriendId() {
-	            return getLong(getColumnIndexOrThrow("friends._id"));
+	            return getLong(getColumnIndexOrThrow("_id"));
 	      }
 	      
 	      public String getColFirstName() {
@@ -157,6 +159,88 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 	    	  return getString(getColumnIndexOrThrow("_id"));
 	    }
 	}
+	
+	public static class TmpCursor extends SQLiteCursor {
+
+		private static final String getTmp = "SELECT * " +
+										"FROM tmptable " +
+										"WHERE tmptable.usrname = ";
+		private TmpCursor(SQLiteDatabase db, SQLiteCursorDriver driver,
+				String editTable, SQLiteQuery query) {
+			super(db, driver, editTable, query);
+		}
+		
+		private static class Factory implements SQLiteDatabase.CursorFactory {
+
+			@Override
+			public Cursor newCursor(SQLiteDatabase db,
+					SQLiteCursorDriver masterQuery, String editTable,
+					SQLiteQuery query) {
+				// TODO Auto-generated method stub
+				return new TmpCursor(db, masterQuery, editTable, query);
+			}
+			
+		}
+		
+		public String getId() {
+			 return getString(getColumnIndexOrThrow("_id"));
+		}
+		
+		public String getUserName() {
+	    	  return getString(getColumnIndexOrThrow("usrname"));
+	    }
+		
+		public String getFriendId() {
+	    	  return getString(getColumnIndexOrThrow("friendId"));
+	    }
+		
+		public String getType() {
+	    	  return getString(getColumnIndexOrThrow("type"));
+	    }
+		
+		public byte[] getData() {
+	    	  return getBlob(getColumnIndexOrThrow("data"));
+	    }
+		
+	}
+	
+	
+	public void addTmpData(int friendId, String type, byte[] data) {
+		ContentValues values = new ContentValues();
+		values.put("usrname", ApplicationConstant.user);
+		values.put("friendId", friendId);
+		values.put("type", type);
+		values.put("data", data);
+				
+		try {
+			Log.d(TAG, "in try");
+			if(getWritableDatabase() == null) {
+				Log.d(TAG, "db is null");
+			} else {
+				Log.d(TAG, "db is not null");
+			}
+			Log.d(TAG, "out try");
+			getWritableDatabase().insert("tmptable", null, values);
+		} catch(Exception e) {
+			Log.e("Error writing new tmp message", e.toString());
+		}
+	}
+	
+	
+	 public TmpCursor getAllTmpMessage() {
+		 String sql = TmpCursor.getTmp + "'" + ApplicationConstant.user + "'";
+		 SQLiteDatabase d = getReadableDatabase();
+	     TmpCursor c = (TmpCursor) d.rawQueryWithFactory(
+	            new TmpCursor.Factory(),
+	            sql,
+	            null,
+	            null);
+	        c.moveToFirst();
+	        return c;
+	 }
+	
+	
+	
 	
 	
 	public static class IconCursor extends SQLiteCursor {
@@ -357,6 +441,7 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 			 }
 		 }
 	 }
+	 
 	 
 	 public void deleteMessage(int _id){
 			String[] whereArgs = new String[]{Integer.toString(_id)};

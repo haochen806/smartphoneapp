@@ -29,6 +29,8 @@ import android.util.Log;
 public class Cloud {
 	private static final String TAG = "Cloud";
 	
+	static int friendId;
+	
 	public static String signToServer(String name, String password, String Uri) {
 		HttpClient client = new DefaultHttpClient();
 		HttpPost signUpPost = new HttpPost(Uri);
@@ -142,11 +144,11 @@ public class Cloud {
 			}
 			//Log.e(TAG, buffer.toString());
 		} catch(Exception e) {
-			Log.e(TAG, e.toString());
+			Log.e(TAG, e.toString() + "get Message");
 		}
 	}
 	
-	public static Map<String, byte[]> getMessageData(ArrayList<String> key) {
+	public static Map<String, byte[]> getMessageData(ArrayList<String> key, ArrayList<String> type, FriendsDatabase db) {
 		Map<String, byte[]> map = new HashMap<String, byte[]>();
 		HttpClient client = new DefaultHttpClient();
 		HttpPost postRequest = null;
@@ -166,12 +168,22 @@ public class Cloud {
 				while ((length = inputStream.read(data))!=-1) {
 				    	out.write(data, 0, length);
 				}
+				
+				
+				
+				db.addTmpData(friendId, type.get(i), data);
+				//Log.d(TAG, "get message data get here!!!!");
+				
 				map.put(currentKey, out.toByteArray());
 			} catch(Exception e) {
-				Log.e(TAG, e.toString());
+				Log.e(TAG, e.toString() + "get message data");
 			}
 		}
 		
 		return map;
+	}
+	
+	public static void setFriendId(int id) {
+		friendId = id;
 	}
 }

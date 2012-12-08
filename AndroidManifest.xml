@@ -12,7 +12,7 @@
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.INTERNET" />
    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-  
+  <uses-permission android:name="android.permission.RECORD_AUDIO" />
   <!-- Fine access to location requires this permission.
          This permission implies access coarse location. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -86,6 +86,15 @@
             android:label="@string/title_activity_add_friend" >
             <intent-filter>
                 <action android:name="android.intent.action.ADDFRIEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".RecorderActivity"
+            android:label="@string/title_activity_add_friend" >
+            <intent-filter>
+                <action android:name="android.intent.action.RECORDER" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

@@ -7,6 +7,7 @@ import java.util.Map;
 import com.example.termproject.FriendsDatabase.FriendsCursor;
 import com.example.termproject.FriendsDatabase.IconCursor;
 import com.example.termproject.FriendsDatabase.TextMessageCursor;
+import com.example.termproject.FriendsDatabase.TmpCursor;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,13 +34,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ViewFriendActivity extends Activity {
 	private static final String TAG = "ViewFriendActivity";
 	
 	FriendsDatabase db;
 	FriendsCursor cursor;
-	private Cursor elementCursor;
+	//private Cursor elementCursor;
 	//TextView firstName;
 	//TextView lastName;
 	TextView userName;
@@ -58,8 +60,13 @@ public class ViewFriendActivity extends Activity {
 	ArrayList<String> key;
 	ArrayList<String> type;
 
+
 	private LayoutInflater  layoutInflater;
 	private LinearLayout mainLayout;
+
+	
+	TmpCursor tmpcursor;
+
 	
 	private static final int ACTION_TAKE_PHOTO_B = 1;
 	private static final int ACTION_TAKE_PHOTO_S = 2;
@@ -74,12 +81,22 @@ public class ViewFriendActivity extends Activity {
 	Map<String, byte[]> map;
 	
 	ImageView tryPicView;
+	TextView tryText;
+	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+	    
+        Bundle extras = getIntent().getExtras();
+	    _id = extras.getString("DBid");
+        Cloud.setFriendId(Integer.parseInt(_id));
+        
+
+        
         setContentView(R.layout.activity_view_friend);
         
+
         layoutInflater = getLayoutInflater();
         mainLayout = (LinearLayout)findViewById(R.id.layout01);
         
@@ -87,17 +104,30 @@ public class ViewFriendActivity extends Activity {
         mImageBitmap = null;
         
         db = new FriendsDatabase(this);
+        db.getWritableDatabase().execSQL(this.getString(R.string.drop_tmp_table));
+        db.getWritableDatabase().execSQL(this.getString(R.string.create_tmp_table));
         
+        ////////////////////
+        key = new ArrayList<String>();
+        type = new ArrayList<String>();
+        Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
+        map = Cloud.getMessageData(key, type, db);
+        tmpcursor = db.getAllTmpMessage();
+        Log.d(TAG, "TMPcount is" + tmpcursor.getCount());
+        for(int i = 0; i < tmpcursor.getCount(); i++) {
+        	tmpcursor.moveToPosition(i);
+        	Toast.makeText(this, new String(tmpcursor.getData()), Toast.LENGTH_LONG).show();
+        }
+        ///////////////
         
-	    Bundle extras = getIntent().getExtras();
-	    _id = extras.getString("DBid");
+        tryText = (TextView)findViewById(R.id.tryMessage);
 	    
 	    Log.d(TAG, "in view creat" + _id);
 	    
 	    cursor = db.getAFriend(_id);
 	    
 	    
-	    textCursor = db.getMessage(Integer.parseInt(_id));
+	   // textCursor = db.getMessage(Integer.parseInt(_id));
 	   
 	    Log.d(TAG, "?????" + db.hasIcon(Integer.parseInt(_id)));
 	    
@@ -135,11 +165,19 @@ public class ViewFriendActivity extends Activity {
         
         String[] columns  = new String[]{"message"};
         int[] to = new int[]{R.id.single_message};
-        SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(this, R.layout.singlemessage, textCursor, columns, to);
+       // SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(this, R.layout.singlemessage, textCursor, columns, to);
         messages = (ListView)findViewById(R.id.messagelistview);
-        messages.setAdapter(mAdapter);
+        //messages.setAdapter(mAdapter);
         registerForContextMenu(messages);
         
+        leaveMessage.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent leaveMessage = new Intent("android.intent.action.RECORDER");
+				startActivity(leaveMessage);
+			}
+		});
         sentText.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -161,17 +199,7 @@ public class ViewFriendActivity extends Activity {
 			}
 		});
         
-        
-        
-        leaveMessage.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-        
+
         
         edit.setOnClickListener(new View.OnClickListener() {
 			
@@ -184,7 +212,8 @@ public class ViewFriendActivity extends Activity {
 			}
 		});
         
-        inflateElement(elementCursor);
+        inflateElement(tmpcursor);
+
     }
 
 	@Override
@@ -345,7 +374,7 @@ public class ViewFriendActivity extends Activity {
 	         key = new ArrayList<String>();
 	         type = new ArrayList<String>();
 	         Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
-	         map = Cloud.getMessageData(key);
+	         map = Cloud.getMessageData(key, type, db);
 	         byte[] tryPic = map.get(key.get(0));
 	         
 	         Log.d(TAG, "SIZE IS " + key.size());
@@ -371,27 +400,58 @@ public class ViewFriendActivity extends Activity {
 	     }
 		
 	}
+
 	
-	private void inflateElement(Cursor elementCursor){
-		for(int i=0; i< elementCursor.getCount();i++){
-			if(elementCursor.getType()==ApplicationConstant.meassgeType){
-				byte[] Data = elementCursor.getData();
+	private void inflateElement(TmpCursor tmpcursor){
+		for(int i=0; i< tmpcursor.getCount();i++){
+			if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.meassgeType))){
+				byte[] Data = tmpcursor.getData();
 				String value = new String(Data);
 				TextView newTextView = (TextView)layoutInflater.inflate(R.layout.text, null);
 				newTextView.setText(value);
 				mainLayout.addView(newTextView);
 			}
-			else if(elementCursor.getType()==ApplicationConstant.imageType){
-				byte[] Data = elementCursor.getData();
+			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.imageType))){
+				byte[] Data = tmpcursor.getData();
 				imageBitmap = BitmapFactory.decodeByteArray(Data,0,Data.length);
 				ImageView newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);		    	
 				newImgView.setImageBitmap(imageBitmap);
 				mainLayout.addView(newImgView);
 			}
-			else if(elementCursor.getType()==ApplicationConstant.audioType){
+			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.audioType))){
 				
 			}
-			elementCursor.moveToNext();
+			tmpcursor.moveToNext();
 		}
 	}
+
+
+	/*@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+	     
+		// *********
+        Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
+        if (key != null) {
+			map = Cloud.getMessageData(key);
+			byte[] tryMsg = map.get(key.get(key.size() - 1));
+			String s = new String(tryMsg);
+			Log.d(TAG, "msg is  " +s);
+			tryText.setText(s);
+        }
+	
+	   //.........
+	}
+*/
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+        db.getWritableDatabase().execSQL(this.getString(R.string.drop_tmp_table));
+		super.onDestroy();
+	}	
+	
+	
+	
+
 }
