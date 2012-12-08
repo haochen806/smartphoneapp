@@ -185,17 +185,7 @@ public class ViewFriendActivity extends Activity {
 			}
 		});
         
-        
-        
-        leaveMessage.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-        
+
         
         edit.setOnClickListener(new View.OnClickListener() {
 			
