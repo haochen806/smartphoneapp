@@ -63,6 +63,7 @@ public class ViewFriendActivity extends Activity {
 
 	private LayoutInflater  layoutInflater;
 	private LinearLayout mainLayout;
+	private LinearLayout addLayout;
 
 	
 	TmpCursor tmpcursor;
@@ -99,6 +100,7 @@ public class ViewFriendActivity extends Activity {
 
         layoutInflater = getLayoutInflater();
         mainLayout = (LinearLayout)findViewById(R.id.layout01);
+        addLayout = (LinearLayout)findViewById(R.id.layout02);
         
         mImageView = (ImageView) findViewById(R.id.imageView1);
         mImageBitmap = null;
@@ -120,7 +122,7 @@ public class ViewFriendActivity extends Activity {
         }
         ///////////////
         
-        tryText = (TextView)findViewById(R.id.tryMessage);
+        //tryText = (TextView)findViewById(R.id.tryMessage);
 	    
 	    Log.d(TAG, "in view creat" + _id);
 	    
@@ -166,9 +168,9 @@ public class ViewFriendActivity extends Activity {
         String[] columns  = new String[]{"message"};
         int[] to = new int[]{R.id.single_message};
        // SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(this, R.layout.singlemessage, textCursor, columns, to);
-        messages = (ListView)findViewById(R.id.messagelistview);
+       // messages = (ListView)findViewById(R.id.messagelistview);
         //messages.setAdapter(mAdapter);
-        registerForContextMenu(messages);
+       // registerForContextMenu(messages);
         
         leaveMessage.setOnClickListener(new View.OnClickListener() {
 			
@@ -212,10 +214,19 @@ public class ViewFriendActivity extends Activity {
 			}
 		});
         
-        inflateElement(tmpcursor);
+        //inflateElement(tmpcursor);
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(tmpcursor!=null){
+        	addLayout.removeAllViews();
+        	inflateElement(tmpcursor);
+        }      
+    }
+    
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
@@ -300,14 +311,14 @@ public class ViewFriendActivity extends Activity {
 		// );
 	}
 	
-	 @Override
+	/* @Override
 		public void onCreateContextMenu(ContextMenu menu, View v,
 		    ContextMenuInfo menuInfo) {
 		  if (v.getId()==R.id.messagelistview) {
 		    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
 		      menu.add(Menu.NONE, 0, 0, "Delete");
 		    }
-		 }
+		 }*/
 		@Override
 		 public boolean onContextItemSelected(MenuItem aItem) {
 		 AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem.getMenuInfo();
@@ -394,9 +405,9 @@ public class ViewFriendActivity extends Activity {
 	        	 Log.d(TAG, "Bitmap is null");
 	         }
 	         
-	         tryPicView = (ImageView)findViewById(R.id.imageTry);
-	         tryPicView.setImageBitmap(bmp);
-	         tryPicView.refreshDrawableState();
+	        // tryPicView = (ImageView)findViewById(R.id.imageTry);
+	        // tryPicView.setImageBitmap(bmp);
+	        // tryPicView.refreshDrawableState();
 	     }
 		
 	}
@@ -409,14 +420,16 @@ public class ViewFriendActivity extends Activity {
 				String value = new String(Data);
 				TextView newTextView = (TextView)layoutInflater.inflate(R.layout.text, null);
 				newTextView.setText(value);
-				mainLayout.addView(newTextView);
+				//mainLayout.addView(newTextView);
+				addLayout.addView(newTextView);
 			}
 			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.imageType))){
 				byte[] Data = tmpcursor.getData();
 				imageBitmap = BitmapFactory.decodeByteArray(Data,0,Data.length);
 				ImageView newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);		    	
 				newImgView.setImageBitmap(imageBitmap);
-				mainLayout.addView(newImgView);
+				//mainLayout.addView(newImgView);
+				addLayout.addView(newImgView);
 			}
 			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.audioType))){
 				
