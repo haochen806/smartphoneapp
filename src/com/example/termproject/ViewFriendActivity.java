@@ -1,6 +1,7 @@
 package com.example.termproject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 import com.example.termproject.FriendsDatabase.FriendsCursor;
 import com.example.termproject.FriendsDatabase.IconCursor;
@@ -47,6 +48,8 @@ public class ViewFriendActivity extends Activity {
 	Bitmap iconBitmap;
 	String clickId;
 	ByteArrayOutputStream stream = new ByteArrayOutputStream();;
+	ArrayList<String> key;
+	ArrayList<String> type;
 	
 	private static final int ACTION_TAKE_PHOTO_B = 1;
 	private static final int ACTION_TAKE_PHOTO_S = 2;
@@ -315,6 +318,13 @@ public class ViewFriendActivity extends Activity {
 				return "error";
 			}
 		}
+		
+		@Override
+	     protected void onPostExecute(String result) {
+	         key = new ArrayList<String>();
+	         type = new ArrayList<String>();
+	         Cloud.getMessage(AplicationConstant.user, Integer.parseInt(_id), key, type);
+	     }
 		
 	}
 }

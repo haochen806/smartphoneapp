@@ -32,7 +32,7 @@ public class Cloud {
 		String result = null;
 		HttpResponse signUpResponse = null;
 		try {
-			List<NameValuePair> postData = new ArrayList<NameValuePair>(2);
+			List<NameValuePair> postData = new ArrayList<NameValuePair>();
 			postData.add(new BasicNameValuePair("usrname", name));
 			postData.add(new BasicNameValuePair("pwd", password));
 			signUpPost.setEntity(new UrlEncodedFormEntity(postData));
@@ -102,20 +102,47 @@ public class Cloud {
 		return result;
 	}
 	
-	public static void getMessage(String userName, int friendId) {
+	public static void getMessage(String userName, int friendId, ArrayList<String> key, ArrayList<String> type) {
 		HttpClient client = new DefaultHttpClient();
 		HttpPost getMessage = new HttpPost(AplicationConstant.getMessage);
 		HttpResponse messageResponse = null;
-		//InputStream 
+		String line = null;
+		StringBuffer buffer = new StringBuffer();
+		
+		Log.d(TAG, "in cloud get message");
+		
+		Log.d(TAG, AplicationConstant.getMessage);
+		Log.d(TAG, "username is  " + userName);
+		Log.d(TAG, "friendId is  "+ friendId);
+		
 		try {
-			List<NameValuePair> postData = new ArrayList<NameValuePair>(2);
+			List<NameValuePair> postData = new ArrayList<NameValuePair>();
 			postData.add(new BasicNameValuePair("usrname", AplicationConstant.user));
 			postData.add(new BasicNameValuePair("friendId", Integer.toString(friendId)));
 			getMessage.setEntity(new UrlEncodedFormEntity(postData));
 			messageResponse = client.execute(getMessage);
-			messageResponse.getEntity().getContent();
-		} catch(Exception e) {
+			//Log.d(TAG, "get here");
 			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(messageResponse.getEntity().getContent()));
+			line = reader.readLine();
+			while(line != null) {
+				//Log.d(TAG, "line is  " + line);
+				String[] keyAndType = line.split(";");
+				key.add(keyAndType[0]);
+				key.add(keyAndType[1]);
+				Log.d(TAG, " line is not null");
+				Log.d(TAG, "key  " + keyAndType[0]);
+				Log.d(TAG,"type  " + keyAndType[1]);
+				buffer.append(line);
+				line = reader.readLine();
+			}
+			//Log.e(TAG, buffer.toString());
+		} catch(Exception e) {
+			Log.e(TAG, e.toString());
 		}
+	}
+	
+	public static void getMessageData(ArrayList<String> key) {
+		
 	}
 }
