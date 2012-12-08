@@ -7,13 +7,15 @@
   <meta name="Generator" content="Cocoa HTML Writer">
   <meta name="CocoaVersion" content="1138.51">
   <style type="text/css">
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times}
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times}
   </style>
 </head>
 <body>
-<h1 style="margin: 0.0px 0.0px 16.0px 0.0px; font: 24.0px Times; min-height: 29.0px"><br></h1>
-<p class="p2">{% for msg in msgs %}<span class="Apple-converted-space"> </span></p>
-<p class="p2"><span class="Apple-converted-space"> </span>&lt;div&gt; {{msg.msg}} &lt;/div&gt;</p>
-<p class="p2">{% endfor %}</p>
+<p class="p1">{% for msg in msgs %}</p>
+<p class="p1">{{msg.usrname}} {{msg.friendId}} {{msg.type}}</p>
+<p class="p1">{% endfor %}</p>
+<p class="p1">{% for user in users %}</p>
+<p class="p1">{{user.usrname}}</p>
+<p class="p1">{% endfor %}</p>
 </body>
 </html>

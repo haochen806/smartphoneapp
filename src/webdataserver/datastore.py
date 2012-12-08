@@ -13,15 +13,55 @@ class Users(db.Model):
     usrname = db.StringProperty(required = True)
     pwd = db.StringProperty(required = True)
 
+class Message(db.Model):
+    usrname = db.StringProperty(required = True)
+    friendId = db.StringProperty(required = True)
+    type = db.StringProperty(required = True)
+    data = db.BlobProperty(required = True)
+
 
 class DefaultHandler(webapp2.RequestHandler):
     def get(self):
-        msgs = db.GqlQuery('SELECT * FROM Msg')
+        msgs = db.GqlQuery('SELECT * FROM Message')
+        users = db.GqlQuery('SELECT * FROM Users')
         values = {
-            'msgs': msgs
+            'msgs': msgs,
+            'users':users
         }
         self.response.out.write(template.render('helloworld.html',
                                                 values))
+
+
+
+class PostMessageHandler(webapp2.RequestHandler):
+    def post(self):
+        usrname = self.request.get("usrname")
+        friendId = self.request.get("friendId")
+        type = self.request.get("type")
+        data = self.request.get("data")
+        new_message = Message(usrname=usrname,friendId=friendId,type=type,data=data)
+        new_message.put()
+        self.response.write("OK\n")
+
+
+class GetBlobHandler(webapp2.RequestHandler):
+    def post(self):
+        id = self.request.get("id")
+        msg = Message.get_by_id(long(id))
+        self.response.headers['Content-Type'] = 'application/octet-stream'
+        self.response.write(msg.data)
+
+class GetMsgs(webapp2.RequestHandler):
+    def post(self):
+        self.response.headers['Content-Type'] = 'text/plain'
+        usrname = self.request.get("usrname")
+        friendId = self.request.get("friendId")
+        for msg in Message.all().filter('usrname = ',usrname).filter('friendId = ',friendId).run():
+            response = ";".join([str(msg.key().id()),
+                                msg.type]) + "\n"
+            self.response.write(response) # return all food item's string property
+
+
 class SignUpHandler(webapp2.RequestHandler):
     def post(self):
         usrname = self.request.get("usrname")
@@ -61,4 +101,4 @@ class AddHandler(webapp2.RequestHandler):
         msg.put()
         self.response.out.write('OK')
 
-app = webapp2.WSGIApplication([('/',DefaultHandler),('/add',AddHandler),('/signup',SignUpHandler),('/signin',SignInHandler)],debug=True)
+app = webapp2.WSGIApplication([('/',DefaultHandler),('/add',AddHandler),('/signup',SignUpHandler),('/signin',SignInHandler),('/postmessage',PostMessageHandler),('/getmsgs',GetMsgs),('/getmsgdata',GetBlobHandler)],debug=True)
