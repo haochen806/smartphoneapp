@@ -21,6 +21,4 @@
         android:layout_alignParentTop="true"
         android:text="next step" />
 
-
-
 </RelativeLayout>

@@ -34,8 +34,9 @@ public class ViewFriendActivity extends Activity {
 	
 	FriendsDatabase db;
 	FriendsCursor cursor;
-	TextView firstName;
-	TextView lastName;
+	//TextView firstName;
+	//TextView lastName;
+	TextView userName;
 	TextView emailText;
 	TextView addressText;
 	TextView phoneNumText;
@@ -46,7 +47,7 @@ public class ViewFriendActivity extends Activity {
 	byte[] iconData;
 	Bitmap iconBitmap;
 	String clickId;
-	ByteArrayOutputStream stream = new ByteArrayOutputStream();;
+	ByteArrayOutputStream stream = new ByteArrayOutputStream();
 	
 	private static final int ACTION_TAKE_PHOTO_B = 1;
 	private static final int ACTION_TAKE_PHOTO_S = 2;
@@ -96,11 +97,13 @@ public class ViewFriendActivity extends Activity {
         Button leaveMessage = (Button) findViewById(R.id.leavemessage);
         Button edit = (Button) findViewById(R.id.edit);
         
-        firstName = (TextView)findViewById(R.id.firstNameView);
-        firstName.setText(cursor.getColFirstName());
+        //firstName = (TextView)findViewById(R.id.firstNameView);
+        //firstName.setText(cursor.getColFirstName());
         
-        lastName = (TextView)findViewById(R.id.lastNameView);
-        lastName.setText(cursor.getColLastName());
+        //lastName = (TextView)findViewById(R.id.lastNameView);
+        //lastName.setText(cursor.getColLastName());
+        userName = (TextView)findViewById(R.id.userNameView);
+        userName.setText(cursor.getColFirstName()+" "+cursor.getColLastName());
         
         emailText = (TextView)findViewById(R.id.EmailText);
         emailText.setText(cursor.getColEmail());

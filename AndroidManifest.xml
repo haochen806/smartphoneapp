@@ -12,6 +12,11 @@
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.INTERNET" />
   
+  <!-- Fine access to location requires this permission.
+         This permission implies access coarse location. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+  
   
     <application
         android:icon="@drawable/ic_launcher"
