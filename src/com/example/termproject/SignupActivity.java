@@ -43,9 +43,8 @@ public class SignupActivity extends Activity {
 					String pw = passwordText.getText().toString();
 					String conf = confirmation.getText().toString();
 					if(pw.equals(conf)) {
-						Cloud cloud = new Cloud();
 						Log.d("singup", "before");
-						String result = cloud.signToServer(userName, pw, AplicationConstant.signUpUri);
+						String result = Cloud.signToServer(userName, pw, AplicationConstant.signUpUri);
 						Log.d("singup", "after");
 						if(result == null) {
 							Log.d("singup", "result is null");

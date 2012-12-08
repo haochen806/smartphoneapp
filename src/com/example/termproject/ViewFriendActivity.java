@@ -1,9 +1,12 @@
 package com.example.termproject;
 
+import java.io.ByteArrayOutputStream;
+
 import com.example.termproject.FriendsDatabase.FriendsCursor;
 import com.example.termproject.FriendsDatabase.IconCursor;
 import com.example.termproject.FriendsDatabase.TextMessageCursor;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.app.Activity;
@@ -43,6 +46,7 @@ public class ViewFriendActivity extends Activity {
 	byte[] iconData;
 	Bitmap iconBitmap;
 	String clickId;
+	ByteArrayOutputStream stream = new ByteArrayOutputStream();;
 	
 	private static final int ACTION_TAKE_PHOTO_B = 1;
 	private static final int ACTION_TAKE_PHOTO_S = 2;
@@ -51,7 +55,8 @@ public class ViewFriendActivity extends Activity {
 	private static final String BITMAP_STORAGE_KEY = "viewbitmap";
 	private static final String IMAGEVIEW_VISIBILITY_STORAGE_KEY = "imageviewvisibility";
 	private ImageView mImageView;
-	private Bitmap mImageBitmap;
+	Bitmap mImageBitmap;
+	byte[] pictureData;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,7 +134,7 @@ public class ViewFriendActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				startActivityForResult(takePictureIntent, ACTION_TAKE_PHOTO_S);
+				startActivityForResult(takePictureIntent, ACTION_TAKE_PHOTO_B);
 				
 			}
 		});
@@ -164,22 +169,16 @@ public class ViewFriendActivity extends Activity {
 		//super.onActivityResult(requestCode, resultCode, data);
 		//Intent intent = data;
 		//Bundle extras = intent.getExtras();
-		//Bitmap mImageBitmap = (Bitmap) extras.get("data");
-		if (mImageBitmap == null){
-			Log.d("picture","WRONG");
-		}
-		else{
-			Log.d("picture","RIGHT");
-		}
+		//Bitmap mImageBitmap = (Bitmap) extras.get("data");		
 		switch (requestCode) {
-		case ACTION_TAKE_PHOTO_B: {
+		case ACTION_TAKE_PHOTO_S: {
 			if (resultCode == RESULT_OK) {
 				
 			}
 			break;
 		} // ACTION_TAKE_PHOTO_B
 
-		case ACTION_TAKE_PHOTO_S: {
+		case ACTION_TAKE_PHOTO_B: {
 			if (resultCode == RESULT_OK) {
 				Log.d("picture", "picture OK");
 				handleSmallCameraPhoto(data);
@@ -204,10 +203,19 @@ public class ViewFriendActivity extends Activity {
 	private void handleSmallCameraPhoto(Intent intent) {
 		Bundle extras = intent.getExtras();
 		mImageBitmap = (Bitmap) extras.get("data");
-		mImageView.setImageBitmap(mImageBitmap);
+		//mImageView.setImageBitmap(mImageBitmap);
 		//mVideoUri = null;
-		mImageView.setVisibility(View.VISIBLE);
+		//mImageView.setVisibility(View.VISIBLE);
 		//mVideoView.setVisibility(View.INVISIBLE);
+		if (mImageBitmap == null){
+			Log.d("picture","WRONG");
+		}
+		else{
+			Log.d("picture","RIGHT");
+		}
+		mImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+		pictureData = stream.toByteArray();
+		new UploadMessage().execute();
 	}
 	
 	// Some lifecycle callbacks so that the image can survive orientation change
@@ -284,5 +292,29 @@ public class ViewFriendActivity extends Activity {
 		.show();
 		}
 
+	private class UploadMessage extends AsyncTask<String, Integer, String> {
 
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			String response = null;
+			try {
+				Log.d(TAG, "before upload message");
+				response = Cloud.uploadMessage(AplicationConstant.user, Integer.parseInt(_id), pictureData, AplicationConstant.imageType);
+				Log.d(TAG, "after upload message");
+			} catch (Exception e) {
+				Log.d("upload", "message exception");
+			}
+			
+			if(response.equals(AplicationConstant.messageUploadResponseOk)) {
+				Log.d(TAG, "upload message Ok!");
+				return "Ok";
+			}
+			else {
+				Log.d(TAG, "upload message error!");
+				return "error";
+			}
+		}
+		
+	}
 }
