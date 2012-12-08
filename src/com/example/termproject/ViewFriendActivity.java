@@ -15,11 +15,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -36,6 +39,7 @@ public class ViewFriendActivity extends Activity {
 	
 	FriendsDatabase db;
 	FriendsCursor cursor;
+	private Cursor elementCursor;
 	//TextView firstName;
 	//TextView lastName;
 	TextView userName;
@@ -48,11 +52,14 @@ public class ViewFriendActivity extends Activity {
 	IconCursor iconCursor;
 	byte[] iconData;
 	Bitmap iconBitmap;
+	Bitmap imageBitmap;
 	String clickId;
 	ByteArrayOutputStream stream = new ByteArrayOutputStream();
 	ArrayList<String> key;
 	ArrayList<String> type;
 
+	private LayoutInflater  layoutInflater;
+	private LinearLayout mainLayout;
 	
 	private static final int ACTION_TAKE_PHOTO_B = 1;
 	private static final int ACTION_TAKE_PHOTO_S = 2;
@@ -72,6 +79,9 @@ public class ViewFriendActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_friend);
+        
+        layoutInflater = getLayoutInflater();
+        mainLayout = (LinearLayout)findViewById(R.id.layout01);
         
         mImageView = (ImageView) findViewById(R.id.imageView1);
         mImageBitmap = null;
@@ -173,6 +183,8 @@ public class ViewFriendActivity extends Activity {
 				startActivity(edit);
 			}
 		});
+        
+        inflateElement(elementCursor);
     }
 
 	@Override
@@ -358,5 +370,28 @@ public class ViewFriendActivity extends Activity {
 	         tryPicView.refreshDrawableState();
 	     }
 		
+	}
+	
+	private void inflateElement(Cursor elementCursor){
+		for(int i=0; i< elementCursor.getCount();i++){
+			if(elementCursor.getType()==ApplicationConstant.meassgeType){
+				byte[] Data = elementCursor.getData();
+				String value = new String(Data);
+				TextView newTextView = (TextView)layoutInflater.inflate(R.layout.text, null);
+				newTextView.setText(value);
+				mainLayout.addView(newTextView);
+			}
+			else if(elementCursor.getType()==ApplicationConstant.imageType){
+				byte[] Data = elementCursor.getData();
+				imageBitmap = BitmapFactory.decodeByteArray(Data,0,Data.length);
+				ImageView newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);		    	
+				newImgView.setImageBitmap(imageBitmap);
+				mainLayout.addView(newImgView);
+			}
+			else if(elementCursor.getType()==ApplicationConstant.audioType){
+				
+			}
+			elementCursor.moveToNext();
+		}
 	}
 }

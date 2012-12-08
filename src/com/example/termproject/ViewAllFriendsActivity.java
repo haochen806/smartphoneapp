@@ -64,7 +64,7 @@ public class ViewAllFriendsActivity extends FragmentActivity {
 	//private TextView mLatLng;
 	private TextView mAddress;
 	//private Button mFineProviderButton;
-	private Button mBothProviderButton;
+	//private Button mBothProviderButton;
 	private ImageView imageLocation;
 	private LocationManager mLocationManager;
 	private Handler mHandler;
@@ -188,7 +188,7 @@ public class ViewAllFriendsActivity extends FragmentActivity {
 		// (network) location
 		// providers.
 		
-		mBothProviderButton = (Button) findViewById(R.id.provider_both);
+		//mBothProviderButton = (Button) findViewById(R.id.provider_both);
 		imageLocation = (ImageView)findViewById(R.id.imageLocation);
 
 		// The isPresent() helper method is only available on Gingerbread or
@@ -357,7 +357,7 @@ public class ViewAllFriendsActivity extends FragmentActivity {
         // Get fine location updates only.
         if (mUseFine) {
             //mFineProviderButton.setBackgroundResource(R.drawable.button_active);
-            mBothProviderButton.setBackgroundResource(R.drawable.button_inactive);
+            //mBothProviderButton.setBackgroundResource(R.drawable.button_inactive);
             // Request updates from just the fine (gps) provider.
             gpsLocation = requestUpdatesFromProvider(
                     LocationManager.GPS_PROVIDER, R.string.not_support_gps);
@@ -366,7 +366,8 @@ public class ViewAllFriendsActivity extends FragmentActivity {
         } else if (mUseBoth) {
             // Get coarse and fine location updates.
             //mFineProviderButton.setBackgroundResource(R.drawable.button_inactive);
-            mBothProviderButton.setBackgroundResource(R.drawable.button_active);
+            //mBothProviderButton.setBackgroundResource(R.drawable.button_active);
+            imageLocation.setBackgroundResource(R.drawable.button_active);
             // Request updates from both fine (gps) and coarse (network) providers.
         	Log.d(TAG, "start location Ok!");
         	
