@@ -80,7 +80,7 @@ public class SentTextActivity extends Activity {
 			Map<String, byte[]> map;
 			Cloud.getMessage(ApplicationConstant.user, friendId, key, type);
 
-			map = Cloud.getMessageData(key);
+			map = Cloud.getMessageData(key, type, db);
 			
 			for(int i = 0; i < key.size(); i++) {
 				byte[] tryMsg = map.get(key.get(i));

@@ -7,6 +7,7 @@ import java.util.Map;
 import com.example.termproject.FriendsDatabase.FriendsCursor;
 import com.example.termproject.FriendsDatabase.IconCursor;
 import com.example.termproject.FriendsDatabase.TextMessageCursor;
+import com.example.termproject.FriendsDatabase.TmpCursor;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ViewFriendActivity extends Activity {
 	private static final String TAG = "ViewFriendActivity";
@@ -52,7 +54,8 @@ public class ViewFriendActivity extends Activity {
 	ByteArrayOutputStream stream = new ByteArrayOutputStream();
 	ArrayList<String> key;
 	ArrayList<String> type;
-
+	
+	TmpCursor tmpcursor;
 	
 	private static final int ACTION_TAKE_PHOTO_B = 1;
 	private static final int ACTION_TAKE_PHOTO_S = 2;
@@ -69,19 +72,41 @@ public class ViewFriendActivity extends Activity {
 	ImageView tryPicView;
 	TextView tryText;
 	
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+	    
+        Bundle extras = getIntent().getExtras();
+	    _id = extras.getString("DBid");
+        Cloud.setFriendId(Integer.parseInt(_id));
+        
+
+        
         setContentView(R.layout.activity_view_friend);
+        
         
         mImageView = (ImageView) findViewById(R.id.imageView1);
         mImageBitmap = null;
         
         db = new FriendsDatabase(this);
+        db.getWritableDatabase().execSQL(this.getString(R.string.drop_tmp_table));
+        db.getWritableDatabase().execSQL(this.getString(R.string.create_tmp_table));
+        
+        ////////////////////
+        key = new ArrayList<String>();
+        type = new ArrayList<String>();
+        Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
+        map = Cloud.getMessageData(key, type, db);
+        tmpcursor = db.getAllTmpMessage();
+        Log.d(TAG, "TMPcount is" + tmpcursor.getCount());
+        for(int i = 0; i < tmpcursor.getCount(); i++) {
+        	tmpcursor.moveToPosition(i);
+        	Toast.makeText(this, new String(tmpcursor.getData()), Toast.LENGTH_LONG).show();
+        }
+        ///////////////
         
         tryText = (TextView)findViewById(R.id.tryMessage);
-	    Bundle extras = getIntent().getExtras();
-	    _id = extras.getString("DBid");
 	    
 	    Log.d(TAG, "in view creat" + _id);
 	    
@@ -182,6 +207,7 @@ public class ViewFriendActivity extends Activity {
 				startActivity(edit);
 			}
 		});
+        
     }
 
 	@Override
@@ -342,7 +368,7 @@ public class ViewFriendActivity extends Activity {
 	         key = new ArrayList<String>();
 	         type = new ArrayList<String>();
 	         Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
-	         map = Cloud.getMessageData(key);
+	         map = Cloud.getMessageData(key, type, db);
 	         byte[] tryPic = map.get(key.get(0));
 	         
 	         Log.d(TAG, "SIZE IS " + key.size());
@@ -369,7 +395,7 @@ public class ViewFriendActivity extends Activity {
 		
 	}
 
-	@Override
+	/*@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
@@ -385,6 +411,13 @@ public class ViewFriendActivity extends Activity {
         }
 	
 	   //.........
+	}
+*/
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+        db.getWritableDatabase().execSQL(this.getString(R.string.drop_tmp_table));
+		super.onDestroy();
 	}	
 	
 	

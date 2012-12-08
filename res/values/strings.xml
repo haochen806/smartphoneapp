@@ -16,11 +16,15 @@ CREATE TABLE friends (_id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, las
 CREATE TABLE textmessage (_id INTEGER PRIMARY KEY AUTOINCREMENT, friendId INTEGER, message TEXT);
 CREATE TABLE icon (_id INTEGER PRIMARY KEY AUTOINCREMENT, friendId INTEGER, icon BLOB);
 "</string>
+	
+    <string name="create_tmp_table"> CREATE TABLE tmptable (_id INTEGER PRIMARY KEY AUTOINCREMENT, usrname TEXT, friendId INTEGER, type TEXT, data BLOB);</string>
     <string name="update_friends_table">"
 DROP TABLE IF EXISTS friends
 DROP TABLE IF EXISTS textmessage
 DROP TABLE IF EXISTS icon
 "</string>
+
+    <string name="drop_tmp_table">DROP TABLE IF EXISTS tmptable</string>
 
     
     
