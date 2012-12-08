@@ -16,11 +16,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -38,6 +41,7 @@ public class ViewFriendActivity extends Activity {
 	
 	FriendsDatabase db;
 	FriendsCursor cursor;
+	//private Cursor elementCursor;
 	//TextView firstName;
 	//TextView lastName;
 	TextView userName;
@@ -50,12 +54,19 @@ public class ViewFriendActivity extends Activity {
 	IconCursor iconCursor;
 	byte[] iconData;
 	Bitmap iconBitmap;
+	Bitmap imageBitmap;
 	String clickId;
 	ByteArrayOutputStream stream = new ByteArrayOutputStream();
 	ArrayList<String> key;
 	ArrayList<String> type;
+
+
+	private LayoutInflater  layoutInflater;
+	private LinearLayout mainLayout;
+
 	
 	TmpCursor tmpcursor;
+
 	
 	private static final int ACTION_TAKE_PHOTO_B = 1;
 	private static final int ACTION_TAKE_PHOTO_S = 2;
@@ -85,6 +96,9 @@ public class ViewFriendActivity extends Activity {
         
         setContentView(R.layout.activity_view_friend);
         
+
+        layoutInflater = getLayoutInflater();
+        mainLayout = (LinearLayout)findViewById(R.id.layout01);
         
         mImageView = (ImageView) findViewById(R.id.imageView1);
         mImageBitmap = null;
@@ -198,6 +212,8 @@ public class ViewFriendActivity extends Activity {
 			}
 		});
         
+        inflateElement(tmpcursor);
+
     }
 
 	@Override
@@ -385,6 +401,31 @@ public class ViewFriendActivity extends Activity {
 		
 	}
 
+	
+	private void inflateElement(TmpCursor tmpcursor){
+		for(int i=0; i< tmpcursor.getCount();i++){
+			if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.meassgeType))){
+				byte[] Data = tmpcursor.getData();
+				String value = new String(Data);
+				TextView newTextView = (TextView)layoutInflater.inflate(R.layout.text, null);
+				newTextView.setText(value);
+				mainLayout.addView(newTextView);
+			}
+			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.imageType))){
+				byte[] Data = tmpcursor.getData();
+				imageBitmap = BitmapFactory.decodeByteArray(Data,0,Data.length);
+				ImageView newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);		    	
+				newImgView.setImageBitmap(imageBitmap);
+				mainLayout.addView(newImgView);
+			}
+			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.audioType))){
+				
+			}
+			tmpcursor.moveToNext();
+		}
+	}
+
+
 	/*@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
@@ -412,4 +453,5 @@ public class ViewFriendActivity extends Activity {
 	
 	
 	
+
 }

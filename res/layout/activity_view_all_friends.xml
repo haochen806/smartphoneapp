@@ -62,18 +62,11 @@
                 android:id="@+id/imageLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/button_inactive"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:onClick="useCoarseFineProviders"
                 android:src="@drawable/ic_menu_location" />
-            
-            <Button android:id="@+id/provider_both"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/use_both_providers"
-            android:background="@drawable/button_inactive"
-            android:minWidth="160sp"
-            android:onClick="useCoarseFineProviders" />
 
             <TextView
                 android:id="@+id/address"
