@@ -98,7 +98,7 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 	     }
 		 
 	      public long getColFriendId() {
-	            return getLong(getColumnIndexOrThrow("friends._id"));
+	            return getLong(getColumnIndexOrThrow("_id"));
 	      }
 	      
 	      public String getColFirstName() {

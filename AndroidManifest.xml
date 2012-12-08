@@ -90,6 +90,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RecorderActivity"
+            android:label="@string/title_activity_add_friend" >
+            <intent-filter>
+                <action android:name="android.intent.action.RECORDER" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
     </application>
 
