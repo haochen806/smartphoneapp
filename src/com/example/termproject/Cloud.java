@@ -60,8 +60,8 @@ public class Cloud {
 		HttpPost messagePost = new HttpPost(AplicationConstant.postMessage);
 		HttpResponse messageResponse = null;
 		String result = null;
-		StringBuffer buffer = new StringBuffer();
-		String line;
+		//StringBuffer buffer = new StringBuffer();
+		//String line;
 		Log.d(TAG, "in upload message");
 		//String encodedImage = Base64.encode(data, Base64.DEFAULT);
 		
@@ -79,25 +79,43 @@ public class Cloud {
 			messagePost.setEntity(multipartPost);
 			messageResponse = client.execute(messagePost);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(messageResponse.getEntity().getContent()));
-			//result = reader.readLine();
-			line = reader.readLine();
+			result = reader.readLine();
+			/*line = reader.readLine();
 			while(line != null) {
 				buffer.append(line);
 				line = reader.readLine();
-			}
+			}*/
 			
 			reader.close();
 		} catch (IOException e) {
 			Log.e(TAG, e.toString());
 		}
 		
-		result = "OK";
-		/*if(result == null) {
+		//result = "OK";
+		
+		if(result == null) {
 			Log.d(TAG, "result error result is null"); 
-		}  else {*/
-			Log.d(TAG, "result is not null    " + buffer.toString());
-		//}
+		}  else {
+			Log.d(TAG, "result is not null    " + result);
+		}
 		
 		return result;
+	}
+	
+	public static void getMessage(String userName, int friendId) {
+		HttpClient client = new DefaultHttpClient();
+		HttpPost getMessage = new HttpPost(AplicationConstant.getMessage);
+		HttpResponse messageResponse = null;
+		//InputStream 
+		try {
+			List<NameValuePair> postData = new ArrayList<NameValuePair>(2);
+			postData.add(new BasicNameValuePair("usrname", AplicationConstant.user));
+			postData.add(new BasicNameValuePair("friendId", Integer.toString(friendId)));
+			getMessage.setEntity(new UrlEncodedFormEntity(postData));
+			messageResponse = client.execute(getMessage);
+			messageResponse.getEntity().getContent();
+		} catch(Exception e) {
+			
+		}
 	}
 }
