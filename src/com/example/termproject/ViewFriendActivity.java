@@ -67,6 +67,7 @@ public class ViewFriendActivity extends Activity {
 	Map<String, byte[]> map;
 	
 	ImageView tryPicView;
+	TextView tryText;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,7 @@ public class ViewFriendActivity extends Activity {
         
         db = new FriendsDatabase(this);
         
-        
+        tryText = (TextView)findViewById(R.id.tryMessage);
 	    Bundle extras = getIntent().getExtras();
 	    _id = extras.getString("DBid");
 	    
@@ -87,7 +88,7 @@ public class ViewFriendActivity extends Activity {
 	    cursor = db.getAFriend(_id);
 	    
 	    
-	    textCursor = db.getMessage(Integer.parseInt(_id));
+	   // textCursor = db.getMessage(Integer.parseInt(_id));
 	   
 	    Log.d(TAG, "?????" + db.hasIcon(Integer.parseInt(_id)));
 	    
@@ -125,9 +126,9 @@ public class ViewFriendActivity extends Activity {
         
         String[] columns  = new String[]{"message"};
         int[] to = new int[]{R.id.single_message};
-        SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(this, R.layout.singlemessage, textCursor, columns, to);
+       // SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(this, R.layout.singlemessage, textCursor, columns, to);
         messages = (ListView)findViewById(R.id.messagelistview);
-        messages.setAdapter(mAdapter);
+        //messages.setAdapter(mAdapter);
         registerForContextMenu(messages);
         
         sentText.setOnClickListener(new View.OnClickListener() {
@@ -359,4 +360,25 @@ public class ViewFriendActivity extends Activity {
 	     }
 		
 	}
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+	     
+		// *********
+        Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
+        if (key != null) {
+			map = Cloud.getMessageData(key);
+			byte[] tryMsg = map.get(key.get(key.size() - 1));
+			String s = new String(tryMsg);
+			Log.d(TAG, "msg is  " +s);
+			tryText.setText(s);
+        }
+	
+	   //.........
+	}	
+	
+	
+	
 }
