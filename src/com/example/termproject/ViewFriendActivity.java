@@ -50,7 +50,7 @@ public class ViewFriendActivity extends Activity {
 	TextView phoneNumText;
 	String _id;
 	TextMessageCursor textCursor;
-	ListView messages; 
+	//ListView messages; 
 	IconCursor iconCursor;
 	byte[] iconData;
 	Bitmap iconBitmap;
@@ -63,6 +63,7 @@ public class ViewFriendActivity extends Activity {
 
 	private LayoutInflater  layoutInflater;
 	private LinearLayout mainLayout;
+	private LinearLayout addLayout;
 
 	
 	TmpCursor tmpcursor;
@@ -86,7 +87,8 @@ public class ViewFriendActivity extends Activity {
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    	Log.d("Tag", "in on create!");
+    	super.onCreate(savedInstanceState);
 	    
         Bundle extras = getIntent().getExtras();
 	    _id = extras.getString("DBid");
@@ -95,9 +97,10 @@ public class ViewFriendActivity extends Activity {
                 
         setContentView(R.layout.activity_view_friend);
         
-        tryPicView = (ImageView)findViewById(R.id.imageTry);
+        //tryPicView = (ImageView)findViewById(R.id.imageTry);
         layoutInflater = getLayoutInflater();
         mainLayout = (LinearLayout)findViewById(R.id.layout01);
+        addLayout = (LinearLayout)findViewById(R.id.layout02);
         
         mImageView = (ImageView) findViewById(R.id.imageView1);
         mImageBitmap = null;
@@ -119,7 +122,7 @@ public class ViewFriendActivity extends Activity {
         }*/
         ///////////////
         
-        tryText = (TextView)findViewById(R.id.tryMessage);
+        //tryText = (TextView)findViewById(R.id.tryMessage);
 	    
 	    Log.d(TAG, "in view creat" + _id);
 	    
@@ -165,9 +168,9 @@ public class ViewFriendActivity extends Activity {
         String[] columns  = new String[]{"message"};
         int[] to = new int[]{R.id.single_message};
        // SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(this, R.layout.singlemessage, textCursor, columns, to);
-        messages = (ListView)findViewById(R.id.messagelistview);
+       // messages = (ListView)findViewById(R.id.messagelistview);
         //messages.setAdapter(mAdapter);
-        registerForContextMenu(messages);
+       // registerForContextMenu(messages);
         
         leaveMessage.setOnClickListener(new View.OnClickListener() {
 			
@@ -211,9 +214,51 @@ public class ViewFriendActivity extends Activity {
 			}
 		});
         
-        inflateElement(tmpcursor);
+        //inflateElement(tmpcursor);
 
     }
+
+    @Override
+    protected void onResume() {
+    	Log.d("Tag", "in on Resume!");
+    	super.onResume();
+        
+        tmpcursor = db.getAllTmpMessage();
+        
+        if(tmpcursor!=null && tmpcursor.getCount()!=0){       	
+        	addLayout.removeAllViews();
+        	inflateElement(tmpcursor);
+        }      
+    }
+    
+	@Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		Log.d("Tag", "in on Restart!");
+		super.onRestart();
+		
+		
+        tmpcursor = db.getAllTmpMessage();
+        
+        if(tmpcursor!=null && tmpcursor.getCount()!=0){       	
+        	addLayout.removeAllViews();
+        	inflateElement(tmpcursor);
+        }      
+	}
+
+	
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		Log.d("Tag", "in on start!");
+		super.onStart();
+		 tmpcursor = db.getAllTmpMessage();
+	        
+	        if(tmpcursor!=null && tmpcursor.getCount()!=0){       	
+	        	addLayout.removeAllViews();
+	        	inflateElement(tmpcursor);
+	        }      
+	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -299,15 +344,15 @@ public class ViewFriendActivity extends Activity {
 		// );
 	}
 	
-	 @Override
+	/* @Override
 		public void onCreateContextMenu(ContextMenu menu, View v,
 		    ContextMenuInfo menuInfo) {
 		  if (v.getId()==R.id.messagelistview) {
 		    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
 		      menu.add(Menu.NONE, 0, 0, "Delete");
 		    }
-		 }
-		@Override
+		 }*/
+		/*@Override
 		 public boolean onContextItemSelected(MenuItem aItem) {
 		 AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem.getMenuInfo();
 		 textCursor.moveToPosition(menuInfo.position);
@@ -343,7 +388,7 @@ public class ViewFriendActivity extends Activity {
 		})
 		.show();
 		}
-
+*/
 	private class UploadMessage extends AsyncTask<String, Integer, String> {
 
 		@Override
@@ -393,8 +438,9 @@ public class ViewFriendActivity extends Activity {
 	        	 Log.d(TAG, "Bitmap is null");
 	         }
 	         
-	         //tryPicView.setImageBitmap(bmp);
-	         //tryPicView.refreshDrawableState();
+
+
+
 	     }
 		
 	}
@@ -409,7 +455,8 @@ public class ViewFriendActivity extends Activity {
 				String value = new String(Data);
 				TextView newTextView = (TextView)layoutInflater.inflate(R.layout.text, null);
 				newTextView.setText(value);
-				mainLayout.addView(newTextView);
+				//mainLayout.addView(newTextView);
+				addLayout.addView(newTextView);
 			}
 			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.imageType))){
 				Log.d(TAG, "in inflate image !!!!!!!!!!!");
@@ -419,8 +466,12 @@ public class ViewFriendActivity extends Activity {
 				imageBitmap = BitmapFactory.decodeByteArray(Data,0,Data.length);
 				ImageView newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);		    	
 				newImgView.setImageBitmap(imageBitmap);
-				mainLayout.addView(newImgView);
-				//tryPicView.setImageBitmap(imageBitmap);
+
+				//mainLayout.addView(newImgView);
+				addLayout.addView(newImgView);
+
+				
+
 			}
 			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.audioType))){
 				
