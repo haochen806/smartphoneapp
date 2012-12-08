@@ -222,12 +222,13 @@ public class ViewFriendActivity extends Activity {
     protected void onResume() {
     	Log.d("Tag", "in on Resume!");
     	super.onResume();
-        
         tmpcursor = db.getAllTmpMessage();
         
-        if(tmpcursor!=null && tmpcursor.getCount()!=0){       	
+        if(tmpcursor!=null && tmpcursor.getCount()!=0){  
+            Log.d("Tag", "post on Resume!");
+
         	addLayout.removeAllViews();
-        	inflateElement(tmpcursor);
+    //    	inflateElement(tmpcursor);
         }      
     }
     
