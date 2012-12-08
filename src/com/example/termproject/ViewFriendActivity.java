@@ -131,6 +131,14 @@ public class ViewFriendActivity extends Activity {
         //messages.setAdapter(mAdapter);
         registerForContextMenu(messages);
         
+        leaveMessage.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent leaveMessage = new Intent("android.intent.action.RECORDER");
+				startActivity(leaveMessage);
+			}
+		});
         sentText.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
