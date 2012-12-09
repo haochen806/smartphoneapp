@@ -40,7 +40,6 @@ public class SentTextActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				//db.addMessage(friendId, editMessage.getText().toString());
 				data = editMessage.getText().toString().getBytes();
 				db.addTmpData(friendId, "0", data);
 				UploadMessage uploader = new UploadMessage();
@@ -61,7 +60,6 @@ public class SentTextActivity extends Activity {
 
 		@Override
 		protected String doInBackground(String... params) {
-			// TODO Auto-generated method stub
 			String response = null;
 			try {
 				Log.d(TAG, "before upload message");

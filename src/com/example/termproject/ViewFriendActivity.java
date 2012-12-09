@@ -59,8 +59,7 @@ public class ViewFriendActivity extends Activity {
 
 
 	private LayoutInflater  layoutInflater;
-	private LinearLayout mainLayout;
-	private LinearLayout addLayout;
+
 	private LinearLayout imageLayout;
 	private LinearLayout textLayout;
 
@@ -80,9 +79,10 @@ public class ViewFriendActivity extends Activity {
 	
 	Map<String, byte[]> map;
 	
-	ImageView tryPicView;
-	TextView tryText;
+
 	
+	
+	//set up the layout of the viewfriend
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,10 +96,9 @@ public class ViewFriendActivity extends Activity {
                 
         setContentView(R.layout.activity_view_friend);
         
-        //tryPicView = (ImageView)findViewById(R.id.imageTry);
 
-        mainLayout = (LinearLayout)findViewById(R.id.layout01);
-        addLayout = (LinearLayout)findViewById(R.id.layout02);
+//       mainLayout = (LinearLayout)findViewById(R.id.layout01);
+//        addLayout = (LinearLayout)findViewById(R.id.layout02);
         imageLayout = (LinearLayout)findViewById(R.id.layoutImage);
         textLayout = (LinearLayout)findViewById(R.id.layoutText);
         
@@ -110,7 +109,6 @@ public class ViewFriendActivity extends Activity {
         db.getWritableDatabase().execSQL(this.getString(R.string.drop_tmp_table));
         db.getWritableDatabase().execSQL(this.getString(R.string.create_tmp_table));
         
-        ////////////////////
         key = new ArrayList<String>();
         type = new ArrayList<String>();
         Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
@@ -125,7 +123,6 @@ public class ViewFriendActivity extends Activity {
 	    cursor = db.getAFriend(_id);
 	    
 	    
-	   // textCursor = db.getMessage(Integer.parseInt(_id));
 	   
 	    Log.d(TAG, "?????" + db.hasIcon(Integer.parseInt(_id)));
 	    
@@ -142,12 +139,7 @@ public class ViewFriendActivity extends Activity {
         Button sentText = (Button) findViewById(R.id.senttext);
         Button takePicture = (Button) findViewById(R.id.takepicture);
         
-        
-        //firstName = (TextView)findViewById(R.id.firstNameView);
-        //firstName.setText(cursor.getColFirstName());
-        
-        //lastName = (TextView)findViewById(R.id.lastNameView);
-        //lastName.setText(cursor.getColLastName());
+       
         userName = (TextView)findViewById(R.id.userNameView);
         userName.setText(cursor.getColFirstName()+" "+cursor.getColLastName());
         
@@ -162,19 +154,9 @@ public class ViewFriendActivity extends Activity {
         
         String[] columns  = new String[]{"message"};
         int[] to = new int[]{R.id.single_message};
-       // SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(this, R.layout.singlemessage, textCursor, columns, to);
-       // messages = (ListView)findViewById(R.id.messagelistview);
-        //messages.setAdapter(mAdapter);
-       // registerForContextMenu(messages);
+      
         
-        /*leaveMessage.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent leaveMessage = new Intent("android.intent.action.RECORDER");
-				startActivity(leaveMessage);
-			}
-		});*/
+        // senttext button set up onclicklistener
         sentText.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -189,7 +171,6 @@ public class ViewFriendActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 				startActivityForResult(takePictureIntent, ACTION_TAKE_PHOTO_B);
 				
@@ -198,17 +179,7 @@ public class ViewFriendActivity extends Activity {
         
 
         
-        /*edit.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent edit = new Intent("android.intent.action.ADDFRIEND");
-				edit.putExtra("id", _id );
-				startActivityForResult(edit, 7);
-			}
-		});*/
-        
+
 
     }
 
@@ -221,7 +192,6 @@ public class ViewFriendActivity extends Activity {
         if(tmpcursor!=null && tmpcursor.getCount()!=0){  
             Log.d("Tag", "post on Resume!");
 
-        	//addLayout.removeAllViews();
             imageLayout.removeAllViews();
             textLayout.removeAllViews();
         	inflateElement(tmpcursor);
@@ -230,50 +200,23 @@ public class ViewFriendActivity extends Activity {
     
 	@Override
 	protected void onRestart() {
-		// TODO Auto-generated method stub
-		/*tmpcursor = db.getAllTmpMessage(_id);
-		if(tmpcursor!=null && tmpcursor.getCount()!=0){  
-            Log.d("finalbugs", "post on Resume!");
-
-        	addLayout.removeAllViews();
-        	//inflateElement(tmpcursor);
-        }  
-		Log.d("finalbugRestart", "in on Restart!");*/
-		super.onRestart();
-		/*
 		
-        tmpcursor = db.getAllTmpMessage();
-        
-        if(tmpcursor!=null && tmpcursor.getCount()!=0){       	
-        	addLayout.removeAllViews();
-        	inflateElement(tmpcursor);
-        } */     
+		super.onRestart();
+		
 	}
 
 	
 	@Override
 	protected void onStart() {
-		// TODO Auto-generated method stub
-		Log.d("finalbugstart", "in on start!");
 		super.onStart();
-		/*
-		 tmpcursor = db.getAllTmpMessage();
-	        
-	        if(tmpcursor!=null && tmpcursor.getCount()!=0){       	
-	        	addLayout.removeAllViews();
-	        	inflateElement(tmpcursor);
-	        }
-	        */      
+		
 	}
 
+	
+	//camera return result
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		//super.onActivityResult(requestCode, resultCode, data);
-		//Intent intent = data;
-		//Bundle extras = intent.getExtras();
-		//Bitmap mImageBitmap = (Bitmap) extras.get("data");
-		Log.d("finalbugsActivityResult", "in on activityResult!");
+		
 		switch (requestCode) {
 		case ACTION_TAKE_PHOTO_S: {
 			if (resultCode == RESULT_OK) {
@@ -307,10 +250,7 @@ public class ViewFriendActivity extends Activity {
 	private void handleSmallCameraPhoto(Intent intent) {
 		Bundle extras = intent.getExtras();
 		mImageBitmap = (Bitmap) extras.get("data");
-		//mImageView.setImageBitmap(mImageBitmap);
-		//mVideoUri = null;
-		//mImageView.setVisibility(View.VISIBLE);
-		//mVideoView.setVisibility(View.INVISIBLE);
+
 		if (mImageBitmap == null){
 			Log.d("picture","WRONG");
 		}
@@ -324,8 +264,8 @@ public class ViewFriendActivity extends Activity {
 		new UploadMessage().execute();
 	}
 
-	
-
+		
+	//upload image
 	private class UploadMessage extends AsyncTask<String, Integer, String> {
 
 		@Override
@@ -352,9 +292,6 @@ public class ViewFriendActivity extends Activity {
 		
 		@Override
 	     protected void onPostExecute(String result) {
-	        /* key = new ArrayList<String>();
-	         type = new ArrayList<String>();
-	         Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);*/
 	         
 
 	     }
@@ -363,8 +300,7 @@ public class ViewFriendActivity extends Activity {
 	
 	private void inflateElement(TmpCursor tmpcursor){
 		Log.d("inflate","ENTERING ONCE"+tmpcursor.getCount());
-		//ViewFriendActivity.this.setContentView(R.layout.activity_view_friend);
-		//onCreate(null);
+
 		for(int j = 0; j < imageLayout.getChildCount(); j++ ) {
 			Log.d("childView", imageLayout.getChildAt(j).getClass().getName() + j);
 		}
@@ -378,7 +314,6 @@ public class ViewFriendActivity extends Activity {
 				String value = new String(Data);
 				TextView newTextView = (TextView)layoutInflater.inflate(R.layout.text, null);
 				newTextView.setText(value);
-				//mainLayout.addView(newTextView);
 				
 		       
 				textLayout.addView(newTextView);
@@ -399,9 +334,7 @@ public class ViewFriendActivity extends Activity {
 
 				newImgView.invalidate();
 				
-				//mainLayout.addView(newImgView);
-
-				//addLayout.addView(newImgView);
+		
 				Log.d("count",Integer.toString(imageLayout.getChildCount()));
 				
 				imageLayout.addView(newImgView);				
@@ -415,7 +348,6 @@ public class ViewFriendActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		Log.d("finalbugs", "in on destroy");
         db.getWritableDatabase().execSQL(this.getString(R.string.drop_tmp_table));
 		super.onDestroy();
