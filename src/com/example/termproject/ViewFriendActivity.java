@@ -105,8 +105,7 @@ public class ViewFriendActivity extends Activity {
 
         mainLayout = (LinearLayout)findViewById(R.id.layout01);
         addLayout = (LinearLayout)findViewById(R.id.layout02);
-        imageLayout = (LinearLayout)findViewById(R.id.layoutImage);
-        textLayout = (LinearLayout)findViewById(R.id.layoutText);
+        
         
         mImageView = (ImageView) findViewById(R.id.imageView1);
         mImageBitmap = null;
@@ -383,6 +382,7 @@ public class ViewFriendActivity extends Activity {
 				newTextView.setText(value);
 				//mainLayout.addView(newTextView);
 				
+		        textLayout = (LinearLayout)findViewById(R.id.layoutText);
 				textLayout.addView(newTextView);
 				
 				
@@ -402,6 +402,7 @@ public class ViewFriendActivity extends Activity {
 				newImgView.invalidate();
 				
 				//mainLayout.addView(newImgView);
+				imageLayout = (LinearLayout)findViewById(R.id.layoutImage);
 				imageLayout.addView(newImgView);
 				
 				
