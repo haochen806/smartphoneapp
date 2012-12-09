@@ -487,9 +487,7 @@ public class ViewFriendActivity extends Activity {
 				
 				//mainLayout.addView(newImgView);
 				imageLayout = (LinearLayout)findViewById(R.id.layoutImage);
-				imageLayout.addView(newImgView);
-				
-				
+				imageLayout.addView(newImgView);				
 
 			}
 			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.audioType))){
