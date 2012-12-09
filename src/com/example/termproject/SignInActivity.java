@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+
+// sign in process
 public class SignInActivity extends Activity{
 	
 	EditText nameText;
@@ -31,7 +33,6 @@ public class SignInActivity extends Activity{
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						String userName = nameText.getText().toString();
 						String password = passwordText.getText().toString();
 						String response = Cloud.signToServer(userName, password, ApplicationConstant.signInUri);
@@ -55,7 +56,6 @@ public class SignInActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				startActivity(new Intent("android.intent.action.SIGNUP"));
 			}
 		});

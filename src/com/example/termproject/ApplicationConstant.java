@@ -13,9 +13,9 @@ public class ApplicationConstant {
 	public static final String singUpCancel = "";
 	public static String user = null;
 	
-	public static final int meassgeType = 0;
-	public static final int imageType = 1;
-	public static final int audioType = 2;
+	public static final int meassgeType = 0;	//for text message
+	public static final int imageType = 1;		//for picture
+//	public static final int audioType = 2;
 	
 	public static final String messageUploadResponseOk = "OK";
 	

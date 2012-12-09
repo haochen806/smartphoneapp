@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+
+
+// sign up process
 public class SignupActivity extends Activity {
 	EditText nameText;
 	EditText passwordText;
@@ -17,7 +20,6 @@ public class SignupActivity extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sign_up);
 		
@@ -30,7 +32,6 @@ public class SignupActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				String userName = nameText.getText().toString();
 				if(userName.trim().length() == 0) {
 					AlertDialog.Builder alert = new AlertDialog.Builder(SignupActivity.this);

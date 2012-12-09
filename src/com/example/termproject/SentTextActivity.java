@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
+// leave text message
 public class SentTextActivity extends Activity {
 	Button addText;
 	FriendsDatabase db;
@@ -49,8 +51,12 @@ public class SentTextActivity extends Activity {
 				finish();
 			}
 		});
+ 
     }
     
+    
+    // upload text image to webdataserver
+
 	private class UploadMessage extends AsyncTask<String, Integer, String> {
 
 		@Override
@@ -75,23 +81,7 @@ public class SentTextActivity extends Activity {
 			}
 		}
 
-		//@Override
-		/*protected void onPostExecute(String result) {
-			ArrayList<String> key = new ArrayList<String>();
-			ArrayList<String> type = new ArrayList<String>();
-			Map<String, byte[]> map;
-			Cloud.getMessage(ApplicationConstant.user, friendId, key, type);
-
-			map = Cloud.getMessageData(key, type, db);
-			
-			for(int i = 0; i < key.size(); i++) {
-				byte[] tryMsg = map.get(key.get(i));
-				String s = new String(tryMsg);
-				Log.d(TAG, "msg is  " +s);
-				Toast.makeText(SentTextActivity.this, s, Toast.LENGTH_LONG).show();
-			}
-			
-		}*/
+		
 		
 		
 	}
