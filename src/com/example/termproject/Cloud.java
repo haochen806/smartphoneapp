@@ -26,15 +26,20 @@ import org.apache.http.entity.mime.content.StringBody;
 import android.util.Base64;
 import android.util.Log;
 
+/* API to communicate with the webdatastore
+ * 
+ */
+
+
 public class Cloud {
 	private static final String TAG = "Cloud";
 	
 	static int friendId;
 	
+	/* for sign in / sign up user on the webserver */
 	public static String signToServer(String name, String password, String Uri) {
 		HttpClient client = new DefaultHttpClient();
 		HttpPost signUpPost = new HttpPost(Uri);
-		Log.d("cloud", Uri);
 		String result = null;
 		HttpResponse signUpResponse = null;
 		try {
@@ -61,25 +66,17 @@ public class Cloud {
 		
 	}
 	
+	/* upload the message in binary stream to the webdataserver */
 	public static String uploadMessage(String userName, int friendId, byte[] data, int type, FriendsDatabase db) {
 		
-		//db.addTmpData(friendId, Integer.toString(type), data); // local db;
 		
 		
 		HttpClient client = new DefaultHttpClient();
 		HttpPost messagePost = new HttpPost(ApplicationConstant.postMessage);
 		HttpResponse messageResponse = null;
 		String result = null;
-		//StringBuffer buffer = new StringBuffer();
-		//String line;
-		Log.d(TAG, "in upload message");
-		//String encodedImage = Base64.encode(data, Base64.DEFAULT);
-		
 		try {
-			Log.d(TAG, userName);
-			Log.d(TAG, "friendId " + friendId);
-			Log.d(TAG, "type " + type);
-			//Log.d(TAG, "data  " + data[0]);
+
 			
 			MultipartEntity multipartPost = new MultipartEntity();
 			multipartPost.addPart("usrname", new StringBody(userName));
@@ -90,18 +87,10 @@ public class Cloud {
 			messageResponse = client.execute(messagePost);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(messageResponse.getEntity().getContent()));
 			result = reader.readLine();
-			/*line = reader.readLine();
-			while(line != null) {
-				buffer.append(line);
-				line = reader.readLine();
-			}*/
-			
 			reader.close();
 		} catch (IOException e) {
 			Log.e(TAG, e.toString());
 		}
-		
-		//result = "OK";
 		
 		if(result == null) {
 			Log.d(TAG, "result error result is null"); 
@@ -111,7 +100,8 @@ public class Cloud {
 		
 		return result;
 	}
-	
+	/* acquire the information of the messages from the friend to the user, each message  
+	 * contains a specific key later used to obtain the binary data*/
 	public static void getMessage(String userName, int friendId, ArrayList<String> key, ArrayList<String> type) {
 		HttpClient client = new DefaultHttpClient();
 		HttpPost getMessage = new HttpPost(ApplicationConstant.getMessage);
@@ -119,37 +109,19 @@ public class Cloud {
 		String line = null;
 		StringBuffer buffer = new StringBuffer();
 		
-		Log.d(TAG, "in cloud get message");
-		
-		Log.d(TAG, ApplicationConstant.getMessage);
-		Log.d(TAG, "username is  " + userName);
-		Log.d(TAG, "friendId is  "+ friendId);
-		
 		try {
 			List<NameValuePair> postData = new ArrayList<NameValuePair>();
 			postData.add(new BasicNameValuePair("usrname", ApplicationConstant.user));
 			postData.add(new BasicNameValuePair("friendId", Integer.toString(friendId)));
 			getMessage.setEntity(new UrlEncodedFormEntity(postData));
 			messageResponse = client.execute(getMessage);
-			//Log.d(TAG, "get here");
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(messageResponse.getEntity().getContent()));
 			line = reader.readLine();
-			/*///////######
-			while(line != null) {
-				buffer.append(line);
-				line = reader.readLine();
-			}
-			Log.e(TAG, buffer.toString());
-			/////////#######*/
-			while(line != null) {
-				Log.d(TAG, "line is  " + line);
+			while(line != null) { 
 				String[] keyAndType = line.split(";");
 				key.add(keyAndType[0]);
 				type.add(keyAndType[1]);
-				Log.d(TAG, " line is not null");
-				Log.d(TAG, "key  " + keyAndType[0]);
-				Log.d(TAG,"type  " + keyAndType[1]);
 				buffer.append(line);
 				line = reader.readLine();
 			}
@@ -159,6 +131,8 @@ public class Cloud {
 		}
 	}
 	
+	
+	/*acquire the binary data of each message */
 	public static Map<String, byte[]> getMessageData(ArrayList<String> key, ArrayList<String> type, FriendsDatabase db) {
 		Map<String, byte[]> map = new HashMap<String, byte[]>();
 		HttpClient client = new DefaultHttpClient();
@@ -179,11 +153,8 @@ public class Cloud {
 				while ((length = inputStream.read(data))!=-1) {
 				    	out.write(data, 0, length);
 				}
-				
-				
-				
+								
 				db.addTmpData(friendId, type.get(i), out.toByteArray());
-				//Log.d(TAG, "get message data get here!!!!");
 				
 				map.put(currentKey, out.toByteArray());
 			} catch(Exception e) {

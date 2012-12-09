@@ -37,7 +37,6 @@ public class AddFriendActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG,"in onCreate");
         db = new FriendsDatabase(this);
         stream = new ByteArrayOutputStream();
         setContentView(R.layout.activity_add_friend);
@@ -49,16 +48,13 @@ public class AddFriendActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 				startActivityForResult(takePictureIntent, ACTION_TAKE_PHOTO_S);
 			}
 		});
                 
         if(bundle != null) {
-        	id = bundle.getString("id");
-           	Log.d(TAG, "id is !!" +  id);
-        	
+        	id = bundle.getString("id");        	
            	cursor = db.getAFriend(id);
 			((EditText)findViewById(R.id.AddFriendLastName)).setText(cursor.getColLastName());
 			((EditText) findViewById(R.id.AddFriendMobilePhone)).setText(cursor.fetColPhoneNum());
@@ -78,7 +74,7 @@ public class AddFriendActivity extends Activity {
 			}
         }
         else {
-        	Log.d(TAG, "bundle is null");
+        	//bundle is null
         	addButton = (Button)findViewById(R.id.AddFriendButton);
         	icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_icon));
         }
@@ -92,8 +88,6 @@ public class AddFriendActivity extends Activity {
     
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		//super.onActivityResult(requestCode, resultCode, data);
     	if(resultCode == RESULT_OK) {
     		Log.d(TAG, "Icon Ok");
     		handleIcon(data);
@@ -130,21 +124,12 @@ public class AddFriendActivity extends Activity {
     			else {
     				db.editFriend(Long.parseLong(id), newFriend);
     				if(iconByte != null) {
-    					Log.d(TAG, "byte is not null");
     					if(db.hasIcon(Integer.parseInt(id)))
     						db.editIcon(Integer.parseInt(id), iconByte);
     					else
     						db.addIcon(Integer.parseInt(id), iconByte);
     				}
     			}
-    			
-        		/*if(iconByte != null) {
-        			Log.d(TAG, "byte is not null");
-        		} else {
-        			Log.d(TAG, "byte is null");
-        		}*/
-    			
-        		//startActivity(new Intent("android.intent.action.ALLFRIENDS"));
     			setResult(RESULT_OK);
     			finish();
     		}

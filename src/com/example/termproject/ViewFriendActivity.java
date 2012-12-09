@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -56,7 +57,7 @@ public class ViewFriendActivity extends Activity {
 	Bitmap iconBitmap;
 	Bitmap imageBitmap;
 	String clickId;
-	ByteArrayOutputStream stream = new ByteArrayOutputStream();
+	ByteArrayOutputStream stream;
 	ArrayList<String> key;
 	ArrayList<String> type;
 	ImageView newImgView;
@@ -65,6 +66,8 @@ public class ViewFriendActivity extends Activity {
 	private LayoutInflater  layoutInflater;
 	private LinearLayout mainLayout;
 	private LinearLayout addLayout;
+	private LinearLayout imageLayout;
+	private LinearLayout textLayout;
 
 	
 	TmpCursor tmpcursor;
@@ -88,7 +91,7 @@ public class ViewFriendActivity extends Activity {
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	Log.d("Tag", "in on create!");
+    	Log.d("finalbugcreate", "in on create!");
     	super.onCreate(savedInstanceState);
 	    
         Bundle extras = getIntent().getExtras();
@@ -99,9 +102,11 @@ public class ViewFriendActivity extends Activity {
         setContentView(R.layout.activity_view_friend);
         
         //tryPicView = (ImageView)findViewById(R.id.imageTry);
-        layoutInflater = getLayoutInflater();
+
         mainLayout = (LinearLayout)findViewById(R.id.layout01);
         addLayout = (LinearLayout)findViewById(R.id.layout02);
+        imageLayout = (LinearLayout)findViewById(R.id.layoutImage);
+        textLayout = (LinearLayout)findViewById(R.id.layoutText);
         
         mImageView = (ImageView) findViewById(R.id.imageView1);
         mImageBitmap = null;
@@ -114,16 +119,11 @@ public class ViewFriendActivity extends Activity {
         key = new ArrayList<String>();
         type = new ArrayList<String>();
         Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
+        Log.e("TAG","downloading the data");
         map = Cloud.getMessageData(key, type, db);
-        tmpcursor = db.getAllTmpMessage();
+        tmpcursor = db.getAllTmpMessage(_id);
         Log.d(TAG, "TMPcount is" + tmpcursor.getCount());
-       /* for(int i = 0; i < tmpcursor.getCount(); i++) {
-        	tmpcursor.moveToPosition(i);
-        	Toast.makeText(this, (new String(tmpcursor.getData())).trim(), Toast.LENGTH_LONG).show();
-        }*/
-        ///////////////
-        
-        //tryText = (TextView)findViewById(R.id.tryMessage);
+
 	    
 	    Log.d(TAG, "in view creat" + _id);
 	    
@@ -146,8 +146,7 @@ public class ViewFriendActivity extends Activity {
 	      
         Button sentText = (Button) findViewById(R.id.senttext);
         Button takePicture = (Button) findViewById(R.id.takepicture);
-        Button leaveMessage = (Button) findViewById(R.id.leavemessage);
-        Button edit = (Button) findViewById(R.id.edit);
+        
         
         //firstName = (TextView)findViewById(R.id.firstNameView);
         //firstName.setText(cursor.getColFirstName());
@@ -173,14 +172,14 @@ public class ViewFriendActivity extends Activity {
         //messages.setAdapter(mAdapter);
        // registerForContextMenu(messages);
         
-        leaveMessage.setOnClickListener(new View.OnClickListener() {
+        /*leaveMessage.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				Intent leaveMessage = new Intent("android.intent.action.RECORDER");
 				startActivity(leaveMessage);
 			}
-		});
+		});*/
         sentText.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -204,7 +203,7 @@ public class ViewFriendActivity extends Activity {
         
 
         
-        edit.setOnClickListener(new View.OnClickListener() {
+        /*edit.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -213,30 +212,36 @@ public class ViewFriendActivity extends Activity {
 				edit.putExtra("id", _id );
 				startActivityForResult(edit, 7);
 			}
-		});
+		});*/
         
-        //inflateElement(tmpcursor);
 
     }
 
     @Override
     protected void onResume() {
-    	Log.d("Tag", "in on Resume!");
+    	Log.d("finalbugResume", "in on Resume!");
     	super.onResume();
-        tmpcursor = db.getAllTmpMessage();
+    	tmpcursor = db.getAllTmpMessage(_id);
         
         if(tmpcursor!=null && tmpcursor.getCount()!=0){  
             Log.d("Tag", "post on Resume!");
 
         	addLayout.removeAllViews();
         	inflateElement(tmpcursor);
-        }      
+        }   
     }
     
 	@Override
 	protected void onRestart() {
 		// TODO Auto-generated method stub
-		Log.d("Tag", "in on Restart!");
+		/*tmpcursor = db.getAllTmpMessage(_id);
+		if(tmpcursor!=null && tmpcursor.getCount()!=0){  
+            Log.d("finalbugs", "post on Resume!");
+
+        	addLayout.removeAllViews();
+        	//inflateElement(tmpcursor);
+        }  
+		Log.d("finalbugRestart", "in on Restart!");*/
 		super.onRestart();
 		/*
 		
@@ -252,7 +257,7 @@ public class ViewFriendActivity extends Activity {
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
-		Log.d("Tag", "in on start!");
+		Log.d("finalbugstart", "in on start!");
 		super.onStart();
 		/*
 		 tmpcursor = db.getAllTmpMessage();
@@ -270,7 +275,8 @@ public class ViewFriendActivity extends Activity {
 		//super.onActivityResult(requestCode, resultCode, data);
 		//Intent intent = data;
 		//Bundle extras = intent.getExtras();
-		//Bitmap mImageBitmap = (Bitmap) extras.get("data");		
+		//Bitmap mImageBitmap = (Bitmap) extras.get("data");
+		Log.d("finalbugsActivityResult", "in on activityResult!");
 		switch (requestCode) {
 		case ACTION_TAKE_PHOTO_S: {
 			if (resultCode == RESULT_OK) {
@@ -314,87 +320,15 @@ public class ViewFriendActivity extends Activity {
 		else{
 			Log.d("picture","RIGHT");
 		}
+		stream = new ByteArrayOutputStream();
 		mImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 		pictureData = stream.toByteArray();
 		db.addTmpData(Integer.parseInt(_id), "1", pictureData);
 		new UploadMessage().execute();
 	}
-/*	
-	// Some lifecycle callbacks so that the image can survive orientation change
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		outState.putParcelable(BITMAP_STORAGE_KEY, mImageBitmap);
-		// outState.putParcelable(VIDEO_STORAGE_KEY, mVideoUri);
-		outState.putBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY,
-				(mImageBitmap != null));
-		// outState.putBoolean(VIDEOVIEW_VISIBILITY_STORAGE_KEY, (mVideoUri !=
-		// null) );
-		super.onSaveInstanceState(outState);
-	}
-	*/
-/*
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-		mImageBitmap = savedInstanceState.getParcelable(BITMAP_STORAGE_KEY);
-		// mVideoUri = savedInstanceState.getParcelable(VIDEO_STORAGE_KEY);
-		mImageView.setImageBitmap(mImageBitmap);
-		mImageView
-				.setVisibility(savedInstanceState
-						.getBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY) ? ImageView.VISIBLE
-						: ImageView.INVISIBLE);
-		// mVideoView.setVideoURI(mVideoUri);
-		// mVideoView.setVisibility(
-		// savedInstanceState.getBoolean(VIDEOVIEW_VISIBILITY_STORAGE_KEY) ?
-		// ImageView.VISIBLE : ImageView.INVISIBLE
-		// );
-	}
-*/	
-	/* @Override
-		public void onCreateContextMenu(ContextMenu menu, View v,
-		    ContextMenuInfo menuInfo) {
-		  if (v.getId()==R.id.messagelistview) {
-		    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-		      menu.add(Menu.NONE, 0, 0, "Delete");
-		    }
-		 }*/
-		/*@Override
-		 public boolean onContextItemSelected(MenuItem aItem) {
-		 AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem.getMenuInfo();
-		 textCursor.moveToPosition(menuInfo.position);
-		 clickId = textCursor.getColId();
-		 switch (aItem.getItemId()) {
-		 case 0:
-			 confirmDialog();		 
-			 return true;
-		 }
-		 return true;
-		}
-		private void confirmDialog()
-		{
-		new AlertDialog.Builder(this)
-		.setTitle(R.string.delete_message)
-		.setNegativeButton(R.string.cancel,
-		new DialogInterface.OnClickListener()
-		{
-		public void onClick(DialogInterface dialoginterface, int i)
-		{
-			
-		}
-		})
-		.setPositiveButton(R.string.confirm,
-		new DialogInterface.OnClickListener()
-		{
-		public void onClick(DialogInterface dialoginterface, int i)
-		{
-			db.deleteMessage(Integer.parseInt(clickId));
-			textCursor.requery();
-			((SimpleCursorAdapter) messages.getAdapter()).notifyDataSetChanged();
-		}
-		})
-		.show();
-		}
-*/
+
+	
+
 	private class UploadMessage extends AsyncTask<String, Integer, String> {
 
 		@Override
@@ -423,62 +357,50 @@ public class ViewFriendActivity extends Activity {
 	     protected void onPostExecute(String result) {
 	        /* key = new ArrayList<String>();
 	         type = new ArrayList<String>();
-	         Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
-	         map = Cloud.getMessageData(key, type, db);
-	         byte[] tryPic = map.get(key.get(0)); */
+	         Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);*/
 	         
-	        /* Log.d(TAG, "SIZE IS " + key.size());
-	         
-	         for(int i = 0; i < key.size(); i++) {
-	        	 Log.d(TAG, "SIZE key IS " + key.get(i));
-	         }
-	         
-	         if(tryPic == null) {
-	        	 Log.d(TAG, "(tryPic is null");
-	         }
-	         Bitmap bmp = BitmapFactory.decodeByteArray(tryPic, 0, tryPic.length);
-	         
-	         if(bmp != null) {
-	        	 Log.d(TAG, "Bitmap is not null");
-	         } else {
-	        	 Log.d(TAG, "Bitmap is null");
-	         }*/
-	         
-
-
 
 	     }
 		
 	}
-
 	
 	private void inflateElement(TmpCursor tmpcursor){
-		Log.d("inflate","ENTERING ONCE");
-		for(int i=0; i< tmpcursor.getCount();i++){
+		Log.d("inflate","ENTERING ONCE"+tmpcursor.getCount());
+		//ViewFriendActivity.this.setContentView(R.layout.activity_view_friend);
+		//onCreate(null);
+		for(int i=tmpcursor.getCount()-1; i>=0;i--){
 			tmpcursor.moveToPosition(i);
+			layoutInflater = getLayoutInflater();
+
 			if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.meassgeType))){
 				byte[] Data = tmpcursor.getData();
 				String value = new String(Data);
 				TextView newTextView = (TextView)layoutInflater.inflate(R.layout.text, null);
 				newTextView.setText(value);
 				//mainLayout.addView(newTextView);
-				addLayout.addView(newTextView);
+				
+		       
+				textLayout.addView(newTextView);
+				
+				
 			}
 			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.imageType))){
+
 				
 				byte[] Data = tmpcursor.getData();
-				Log.d(TAG, "in inflate image !!!!!!!!!!!"+Data.length);
-				Log.d(TAG, "in inflate image i is " + i);
+				Log.d("finalbugs", "in inflate image !!!!!!!!!!!"+Data.length);
 				imageBitmap = BitmapFactory.decodeByteArray(Data,0,Data.length);
-				newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);		    	
+				newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);
 				newImgView.setImageBitmap(imageBitmap);
-				addLayout.addView(newImgView);
-				newImgView = null;
+				
+				Log.d("HASHCODE",Integer.toString(newImgView.hashCode()));
+				Log.d("imageBitmap",Integer.toString(imageBitmap.hashCode()));
 
+				newImgView.invalidate();
+				
 				//mainLayout.addView(newImgView);
-				
-
-				
+				addLayout.addView(newImgView);
+				//imageLayout.addView(newImgView);				
 
 			}
 			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.audioType))){
@@ -488,27 +410,10 @@ public class ViewFriendActivity extends Activity {
 	}
 
 
-	/*@Override
-	protected void onStart() {
-		// TODO Auto-generated method stub
-		super.onStart();
-	     
-		// *********
-        Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
-        if (key != null) {
-			map = Cloud.getMessageData(key);
-			byte[] tryMsg = map.get(key.get(key.size() - 1));
-			String s = new String(tryMsg);
-			Log.d(TAG, "msg is  " +s);
-			tryText.setText(s);
-        }
-	
-	   //.........
-	}
-*/
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
+		Log.d("finalbugs", "in on destroy");
         db.getWritableDatabase().execSQL(this.getString(R.string.drop_tmp_table));
 		super.onDestroy();
 	}	
