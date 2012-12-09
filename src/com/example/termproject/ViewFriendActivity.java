@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -56,9 +57,10 @@ public class ViewFriendActivity extends Activity {
 	Bitmap iconBitmap;
 	Bitmap imageBitmap;
 	String clickId;
-	ByteArrayOutputStream stream = new ByteArrayOutputStream();
+	ByteArrayOutputStream stream;
 	ArrayList<String> key;
 	ArrayList<String> type;
+	ImageView newImgView;
 
 
 	private LayoutInflater  layoutInflater;
@@ -87,7 +89,7 @@ public class ViewFriendActivity extends Activity {
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	Log.d("Tag", "in on create!");
+    	Log.d("finalbugcreate", "in on create!");
     	super.onCreate(savedInstanceState);
 	    
         Bundle extras = getIntent().getExtras();
@@ -98,7 +100,7 @@ public class ViewFriendActivity extends Activity {
         setContentView(R.layout.activity_view_friend);
         
         //tryPicView = (ImageView)findViewById(R.id.imageTry);
-        
+
         mainLayout = (LinearLayout)findViewById(R.id.layout01);
         addLayout = (LinearLayout)findViewById(R.id.layout02);
         
@@ -113,8 +115,9 @@ public class ViewFriendActivity extends Activity {
         key = new ArrayList<String>();
         type = new ArrayList<String>();
         Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
+        Log.e("TAG","downloading the data");
         map = Cloud.getMessageData(key, type, db);
-        tmpcursor = db.getAllTmpMessage();
+        tmpcursor = db.getAllTmpMessage(_id);
         Log.d(TAG, "TMPcount is" + tmpcursor.getCount());
        /* for(int i = 0; i < tmpcursor.getCount(); i++) {
         	tmpcursor.moveToPosition(i);
@@ -186,7 +189,7 @@ public class ViewFriendActivity extends Activity {
 			public void onClick(View v) {
 				Intent sentText = new Intent("android.intent.action.SENTTEXT");
 				sentText.putExtra("id", _id);
-				startActivity(sentText);
+				startActivityForResult(sentText,5);
 			}
 		});
         
@@ -210,7 +213,7 @@ public class ViewFriendActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent edit = new Intent("android.intent.action.ADDFRIEND");
 				edit.putExtra("id", _id );
-				startActivity(edit);
+				startActivityForResult(edit, 7);
 			}
 		});
         
@@ -220,45 +223,54 @@ public class ViewFriendActivity extends Activity {
 
     @Override
     protected void onResume() {
-    	Log.d("Tag", "in on Resume!");
+    	Log.d("finalbugResume", "in on Resume!");
     	super.onResume();
-        tmpcursor = db.getAllTmpMessage();
+    	tmpcursor = db.getAllTmpMessage(_id);
         
         if(tmpcursor!=null && tmpcursor.getCount()!=0){  
             Log.d("Tag", "post on Resume!");
 
         	addLayout.removeAllViews();
-    //    	inflateElement(tmpcursor);
-        }      
+        	inflateElement(tmpcursor);
+        }   
     }
     
 	@Override
 	protected void onRestart() {
 		// TODO Auto-generated method stub
-		Log.d("Tag", "in on Restart!");
+		/*tmpcursor = db.getAllTmpMessage(_id);
+		if(tmpcursor!=null && tmpcursor.getCount()!=0){  
+            Log.d("finalbugs", "post on Resume!");
+
+        	addLayout.removeAllViews();
+        	//inflateElement(tmpcursor);
+        }  
+		Log.d("finalbugRestart", "in on Restart!");*/
 		super.onRestart();
-		
+		/*
 		
         tmpcursor = db.getAllTmpMessage();
         
         if(tmpcursor!=null && tmpcursor.getCount()!=0){       	
         	addLayout.removeAllViews();
         	inflateElement(tmpcursor);
-        }      
+        } */     
 	}
 
 	
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
-		Log.d("Tag", "in on start!");
+		Log.d("finalbugstart", "in on start!");
 		super.onStart();
+		/*
 		 tmpcursor = db.getAllTmpMessage();
 	        
 	        if(tmpcursor!=null && tmpcursor.getCount()!=0){       	
 	        	addLayout.removeAllViews();
 	        	inflateElement(tmpcursor);
-	        }      
+	        }
+	        */      
 	}
 
 	@Override
@@ -267,7 +279,8 @@ public class ViewFriendActivity extends Activity {
 		//super.onActivityResult(requestCode, resultCode, data);
 		//Intent intent = data;
 		//Bundle extras = intent.getExtras();
-		//Bitmap mImageBitmap = (Bitmap) extras.get("data");		
+		//Bitmap mImageBitmap = (Bitmap) extras.get("data");
+		Log.d("finalbugsActivityResult", "in on activityResult!");
 		switch (requestCode) {
 		case ACTION_TAKE_PHOTO_S: {
 			if (resultCode == RESULT_OK) {
@@ -311,33 +324,40 @@ public class ViewFriendActivity extends Activity {
 		else{
 			Log.d("picture","RIGHT");
 		}
+		stream = new ByteArrayOutputStream();
 		mImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 		pictureData = stream.toByteArray();
+		db.addTmpData(Integer.parseInt(_id), "1", pictureData);
 		new UploadMessage().execute();
 	}
-	
+
 	// Some lifecycle callbacks so that the image can survive orientation change
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		outState.putParcelable(BITMAP_STORAGE_KEY, mImageBitmap);
+		/*outState.putParcelable(BITMAP_STORAGE_KEY, mImageBitmap);
 		// outState.putParcelable(VIDEO_STORAGE_KEY, mVideoUri);
 		outState.putBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY,
 				(mImageBitmap != null));
 		// outState.putBoolean(VIDEOVIEW_VISIBILITY_STORAGE_KEY, (mVideoUri !=
-		// null) );
+		// null) );*/
+		Log.d("finalbugsonsaveinstancestate","onsaveinstance");
 		super.onSaveInstanceState(outState);
 	}
+	
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		Log.d("finalbugsonrestore","In onrestore");
 		super.onRestoreInstanceState(savedInstanceState);
+		/*
 		mImageBitmap = savedInstanceState.getParcelable(BITMAP_STORAGE_KEY);
 		// mVideoUri = savedInstanceState.getParcelable(VIDEO_STORAGE_KEY);
 		mImageView.setImageBitmap(mImageBitmap);
 		mImageView
 				.setVisibility(savedInstanceState
 						.getBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY) ? ImageView.VISIBLE
-						: ImageView.INVISIBLE);
+						: ImageView.INVISIBLE);*/
+		addLayout.removeAllViews();
 		// mVideoView.setVideoURI(mVideoUri);
 		// mVideoView.setVisibility(
 		// savedInstanceState.getBoolean(VIDEOVIEW_VISIBILITY_STORAGE_KEY) ?
@@ -419,25 +439,7 @@ public class ViewFriendActivity extends Activity {
 	         key = new ArrayList<String>();
 	         type = new ArrayList<String>();
 	         Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
-	         map = Cloud.getMessageData(key, type, db);
-	         byte[] tryPic = map.get(key.get(0));
-	         
-	        /* Log.d(TAG, "SIZE IS " + key.size());
-	         
-	         for(int i = 0; i < key.size(); i++) {
-	        	 Log.d(TAG, "SIZE key IS " + key.get(i));
-	         }
-	         
-	         if(tryPic == null) {
-	        	 Log.d(TAG, "(tryPic is null");
-	         }
-	         Bitmap bmp = BitmapFactory.decodeByteArray(tryPic, 0, tryPic.length);
-	         
-	         if(bmp != null) {
-	        	 Log.d(TAG, "Bitmap is not null");
-	         } else {
-	        	 Log.d(TAG, "Bitmap is null");
-	         }*/
+	     
 	         
 
 
@@ -448,29 +450,42 @@ public class ViewFriendActivity extends Activity {
 
 	
 	private void inflateElement(TmpCursor tmpcursor){
-		
-		for(int i=0; i< tmpcursor.getCount();i++){
+		Log.d("inflate","ENTERING ONCE"+tmpcursor.getCount());
+		//ViewFriendActivity.this.setContentView(R.layout.activity_view_friend);
+		//onCreate(null);
+		for(int i=tmpcursor.getCount()-1; i>=0;i--){
 			tmpcursor.moveToPosition(i);
 			layoutInflater = getLayoutInflater();
+
 			if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.meassgeType))){
 				byte[] Data = tmpcursor.getData();
 				String value = new String(Data);
 				TextView newTextView = (TextView)layoutInflater.inflate(R.layout.text, null);
 				newTextView.setText(value);
 				//mainLayout.addView(newTextView);
+				
 				addLayout.addView(newTextView);
+				View line = (View)layoutInflater.inflate(R.layout.line, null);
+				addLayout.addView(line);
+				
 			}
 			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.imageType))){
-				Log.d(TAG, "in inflate image !!!!!!!!!!!");
-				byte[] Data = tmpcursor.getData();
-				Toast.makeText(this, Integer.toString(Data.length), Toast.LENGTH_LONG).show();
-				
-				imageBitmap = BitmapFactory.decodeByteArray(Data,0,Data.length);
-				ImageView newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);		    	
-				newImgView.setImageBitmap(imageBitmap);
 
+				
+				byte[] Data = tmpcursor.getData();
+				Log.d("finalbugs", "in inflate image !!!!!!!!!!!"+Data.length);
+				imageBitmap = BitmapFactory.decodeByteArray(Data,0,Data.length);
+				newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);
+				newImgView.setImageBitmap(imageBitmap);
+				Log.d("HASHCODE",Integer.toString(newImgView.hashCode()));
+				Log.d("imageBitmap",Integer.toString(imageBitmap.hashCode()));
+
+				newImgView.invalidate();
+				
 				//mainLayout.addView(newImgView);
 				addLayout.addView(newImgView);
+				View line = (View)layoutInflater.inflate(R.layout.line, null);
+				addLayout.addView(line);
 
 				
 
@@ -503,6 +518,7 @@ public class ViewFriendActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
+		Log.d("finalbugs", "in on destroy");
         db.getWritableDatabase().execSQL(this.getString(R.string.drop_tmp_table));
 		super.onDestroy();
 	}	

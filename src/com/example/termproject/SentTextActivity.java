@@ -40,11 +40,13 @@ public class SentTextActivity extends Activity {
 			public void onClick(View v) {
 				//db.addMessage(friendId, editMessage.getText().toString());
 				data = editMessage.getText().toString().getBytes();
+				db.addTmpData(friendId, "0", data);
 				UploadMessage uploader = new UploadMessage();
 				uploader.execute();
 				Intent intent = new Intent("android.intent.action.VIEWFRIEND");
 				intent.putExtra("DBid", intentId);
-				startActivity(intent);
+				setResult(1, intent);        
+				finish();
 			}
 		});
     }

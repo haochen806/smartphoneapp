@@ -144,7 +144,9 @@ public class AddFriendActivity extends Activity {
         			Log.d(TAG, "byte is null");
         		}*/
     			
-        		startActivity(new Intent("android.intent.action.ALLFRIENDS"));
+        		//startActivity(new Intent("android.intent.action.ALLFRIENDS"));
+    			setResult(RESULT_OK);
+    			finish();
     		}
     		else{
     			 	AlertDialog.Builder alert = new AlertDialog.Builder(AddFriendActivity.this);

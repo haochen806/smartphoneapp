@@ -174,10 +174,11 @@ public class ViewAllFriendsActivity extends FragmentActivity {
 				Intent anIntent = new Intent("android.intent.action.VIEWFRIEND");
 				anIntent.putExtra("DBid", id);
 				cursor.close();
-				startActivity(anIntent);
+				startActivityForResult(anIntent, 9);
 			}
 
 		});
+		
 		registerForContextMenu(listV);
 
 		// Restore apps state (if exists) after rotation.
@@ -224,7 +225,10 @@ public class ViewAllFriendsActivity extends FragmentActivity {
 		// Get a reference to the LocationManager object.
 		mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 	}
-
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	}
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -246,7 +250,7 @@ public class ViewAllFriendsActivity extends FragmentActivity {
 		case 0:
 			Intent anIntent = new Intent("android.intent.action.ADDFRIEND");
 			anIntent.putExtra("id", _id);
-			startActivity(anIntent);
+			startActivityForResult(anIntent, 11);
 			return true; /* true means: Òwe handled the event */
 		case 1:
 			/*
