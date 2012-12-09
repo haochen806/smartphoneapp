@@ -403,7 +403,8 @@ public class ViewFriendActivity extends Activity {
 				newImgView.invalidate();
 				
 				//mainLayout.addView(newImgView);
-				addLayout.addView(newImgView);
+				//addLayout.addView(newImgView);
+				Log.d("count",Integer.toString(imageLayout.getChildCount()));
 				imageLayout.addView(newImgView);				
 
 			}
