@@ -403,7 +403,7 @@ public class ViewFriendActivity extends Activity {
 				newImgView.invalidate();
 				
 				//mainLayout.addView(newImgView);
-				
+				addLayout.addView(newImgView);
 				imageLayout.addView(newImgView);				
 
 			}
