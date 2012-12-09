@@ -422,7 +422,7 @@ public class ViewFriendActivity extends Activity {
 	         map = Cloud.getMessageData(key, type, db);
 	         byte[] tryPic = map.get(key.get(0));
 	         
-	         Log.d(TAG, "SIZE IS " + key.size());
+	        /* Log.d(TAG, "SIZE IS " + key.size());
 	         
 	         for(int i = 0; i < key.size(); i++) {
 	        	 Log.d(TAG, "SIZE key IS " + key.get(i));
@@ -437,7 +437,7 @@ public class ViewFriendActivity extends Activity {
 	        	 Log.d(TAG, "Bitmap is not null");
 	         } else {
 	        	 Log.d(TAG, "Bitmap is null");
-	         }
+	         }*/
 	         
 
 
