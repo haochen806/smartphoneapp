@@ -73,7 +73,7 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1px"
-                android:background="#FFFFFF" >
+                android:background="#33b5e5" >
             </View>
 
             <LinearLayout
@@ -104,7 +104,7 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1px"
-                android:background="#FFFFFF" >
+                android:background="#33b5e5" >
             </View>
 
             <LinearLayout
@@ -135,15 +135,10 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1px"
-                android:background="#FFFFFF" >
+                android:background="#33b5e5" >
             </View>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1px"
-                android:background="#FFFFFF" >
-            </View>
-
+           
             <Button
                 android:id="@+id/leavemessage"
                 android:layout_width="wrap_content"

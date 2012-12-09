@@ -71,6 +71,7 @@ public class ViewAllFriendsActivity extends FragmentActivity {
 	private boolean mGeocoderAvailable;
 	private boolean mUseFine;
 	private boolean mUseBoth;
+	private ImageView imageAdd;
 
 	// Keys for maintaining UI states after rotation.
 	private static final String KEY_FINE = "use_fine";
@@ -97,12 +98,22 @@ public class ViewAllFriendsActivity extends FragmentActivity {
 
 		setContentView(R.layout.activity_view_all_friends);
 
-		Button addFriend = (Button) findViewById(R.id.addFriendButton);
+		/*Button addFriend = (Button) findViewById(R.id.addFriendButton);
 		addFriend.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent("android.intent.action.ADDFRIEND"));
+			}
+		});*/
+		
+		imageAdd = (ImageView)findViewById(R.id.imageAddFriend);
+		imageAdd.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent("android.intent.action.ADDFRIEND"));
+				
 			}
 		});
 
