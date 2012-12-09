@@ -164,7 +164,7 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 
 		private static final String getTmp = "SELECT * " +
 										"FROM tmptable " +
-										"WHERE tmptable.usrname = ";
+										"WHERE tmptable.usrname = " + "'" + ApplicationConstant.user + "'" + " AND friendId = ";
 		private TmpCursor(SQLiteDatabase db, SQLiteCursorDriver driver,
 				String editTable, SQLiteQuery query) {
 			super(db, driver, editTable, query);
@@ -227,8 +227,8 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 	}
 	
 	
-	 public TmpCursor getAllTmpMessage() {
-		 String sql = TmpCursor.getTmp + "'" + ApplicationConstant.user + "'";
+	 public TmpCursor getAllTmpMessage(String friendId) {
+		 String sql = TmpCursor.getTmp + friendId;
 		 SQLiteDatabase d = getReadableDatabase();
 	     TmpCursor c = (TmpCursor) d.rawQueryWithFactory(
 	            new TmpCursor.Factory(),
