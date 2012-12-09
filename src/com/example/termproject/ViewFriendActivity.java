@@ -117,13 +117,7 @@ public class ViewFriendActivity extends Activity {
         map = Cloud.getMessageData(key, type, db);
         tmpcursor = db.getAllTmpMessage(_id);
         Log.d(TAG, "TMPcount is" + tmpcursor.getCount());
-       /* for(int i = 0; i < tmpcursor.getCount(); i++) {
-        	tmpcursor.moveToPosition(i);
-        	Toast.makeText(this, (new String(tmpcursor.getData())).trim(), Toast.LENGTH_LONG).show();
-        }*/
-        ///////////////
-        
-        //tryText = (TextView)findViewById(R.id.tryMessage);
+
 	    
 	    Log.d(TAG, "in view creat" + _id);
 	    
@@ -215,7 +209,6 @@ public class ViewFriendActivity extends Activity {
 			}
 		});
         
-        //inflateElement(tmpcursor);
 
     }
 
@@ -329,85 +322,8 @@ public class ViewFriendActivity extends Activity {
 		new UploadMessage().execute();
 	}
 
-	// Some lifecycle callbacks so that the image can survive orientation change
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		/*outState.putParcelable(BITMAP_STORAGE_KEY, mImageBitmap);
-		// outState.putParcelable(VIDEO_STORAGE_KEY, mVideoUri);
-		outState.putBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY,
-				(mImageBitmap != null));
-		// outState.putBoolean(VIDEOVIEW_VISIBILITY_STORAGE_KEY, (mVideoUri !=
-		// null) );*/
-		Log.d("finalbugsonsaveinstancestate","onsaveinstance");
-		super.onSaveInstanceState(outState);
-	}
 	
 
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		Log.d("finalbugsonrestore","In onrestore");
-		super.onRestoreInstanceState(savedInstanceState);
-		/*
-		mImageBitmap = savedInstanceState.getParcelable(BITMAP_STORAGE_KEY);
-		// mVideoUri = savedInstanceState.getParcelable(VIDEO_STORAGE_KEY);
-		mImageView.setImageBitmap(mImageBitmap);
-		mImageView
-				.setVisibility(savedInstanceState
-						.getBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY) ? ImageView.VISIBLE
-						: ImageView.INVISIBLE);*/
-		addLayout.removeAllViews();
-		// mVideoView.setVideoURI(mVideoUri);
-		// mVideoView.setVisibility(
-		// savedInstanceState.getBoolean(VIDEOVIEW_VISIBILITY_STORAGE_KEY) ?
-		// ImageView.VISIBLE : ImageView.INVISIBLE
-		// );
-	}
-	
-	/* @Override
-		public void onCreateContextMenu(ContextMenu menu, View v,
-		    ContextMenuInfo menuInfo) {
-		  if (v.getId()==R.id.messagelistview) {
-		    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-		      menu.add(Menu.NONE, 0, 0, "Delete");
-		    }
-		 }*/
-		/*@Override
-		 public boolean onContextItemSelected(MenuItem aItem) {
-		 AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem.getMenuInfo();
-		 textCursor.moveToPosition(menuInfo.position);
-		 clickId = textCursor.getColId();
-		 switch (aItem.getItemId()) {
-		 case 0:
-			 confirmDialog();		 
-			 return true;
-		 }
-		 return true;
-		}
-		private void confirmDialog()
-		{
-		new AlertDialog.Builder(this)
-		.setTitle(R.string.delete_message)
-		.setNegativeButton(R.string.cancel,
-		new DialogInterface.OnClickListener()
-		{
-		public void onClick(DialogInterface dialoginterface, int i)
-		{
-			
-		}
-		})
-		.setPositiveButton(R.string.confirm,
-		new DialogInterface.OnClickListener()
-		{
-		public void onClick(DialogInterface dialoginterface, int i)
-		{
-			db.deleteMessage(Integer.parseInt(clickId));
-			textCursor.requery();
-			((SimpleCursorAdapter) messages.getAdapter()).notifyDataSetChanged();
-		}
-		})
-		.show();
-		}
-*/
 	private class UploadMessage extends AsyncTask<String, Integer, String> {
 
 		@Override
@@ -488,24 +404,6 @@ public class ViewFriendActivity extends Activity {
 	}
 
 
-	/*@Override
-	protected void onStart() {
-		// TODO Auto-generated method stub
-		super.onStart();
-	     
-		// *********
-        Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
-        if (key != null) {
-			map = Cloud.getMessageData(key);
-			byte[] tryMsg = map.get(key.get(key.size() - 1));
-			String s = new String(tryMsg);
-			Log.d(TAG, "msg is  " +s);
-			tryText.setText(s);
-        }
-	
-	   //.........
-	}
-*/
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
