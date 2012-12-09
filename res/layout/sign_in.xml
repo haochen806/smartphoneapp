@@ -21,10 +21,14 @@
             android:id= "@+id/SigninUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+             android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="0.5"
             android:inputType="textPersonName"
             android:gravity="left"
             android:background="@android:drawable/edit_text"
+            
             android:singleLine="true"
             android:hint="UserName" />
 
@@ -32,6 +36,9 @@
             android:id="@+id/SingInPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+             android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="0.5"
             android:inputType ="textPassword"
             android:gravity="left"
@@ -41,12 +48,13 @@
         
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
          android:orientation="horizontal"
-         android:layout_gravity="right"
+         android:gravity="right"
+         android:layout_marginRight="5dp"
  	     android:layout_width="fill_parent"
 	     android:layout_height="wrap_content" >
         <Button 
             android:id="@+id/SignInButton"
-            android:text = "Login"
+            android:text = "SignIn"
             
             android:layout_width="wrap_content"   
             android:layout_height="wrap_content"
@@ -54,8 +62,8 @@
         
         <Button 
             android:id="@+id/SignUpButton"
-            android:text = "SignUp"
-          
+            android:text = "Register Now!"
+           
             android:layout_width="wrap_content"   
             android:layout_height="wrap_content"
          />

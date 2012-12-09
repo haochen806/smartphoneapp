@@ -1,173 +1,137 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    	xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="5dip"
-    android:orientation="vertical" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:addStatesFromChildren="true"
-        android:background="@android:drawable/edit_text"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingRight="0dip"
-        android:layout_marginBottom="20dip"  >
+        android:orientation="vertical" >
 
-        <EditText
-            android:id= "@+id/AddFriendFristName"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:inputType="textPersonName"
-            android:gravity="left"
-            android:background="@null"
-            android:singleLine="true"
-            android:hint="First Name" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:addStatesFromChildren="true"
+            android:background="#33b5e5"
+            android:orientation="vertical"
+            android:paddingRight="0dip" >
 
-        <EditText
-            android:id="@+id/AddFriendLastName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:inputType="textPersonName"
-            android:gravity="left"
-            android:background="@null"
-            android:singleLine="true" 
-            android:hint="Last Name"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dip"
+                android:paddingTop="10dp" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.3"
+                    android:orientation="vertical"
+                    android:paddingRight="0dip" >
+
+                    <ImageView
+                        android:id="@+id/icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_menu_icon"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/TakeIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="selfie?" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.7"
+                    android:orientation="vertical"
+                    android:paddingRight="0dip" >
+
+                    <EditText
+                        android:id="@+id/AddFriendFristName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:background="@android:drawable/edit_text"
+                        android:gravity="left"
+                        android:hint="First Name"
+                        android:inputType="textPersonName"
+                        android:singleLine="true" />
+
+                    <EditText
+                        android:id="@+id/AddFriendLastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:background="@android:drawable/edit_text"
+                        android:gravity="left"
+                        android:hint="Last Name"
+                        android:inputType="textPersonName"
+                        android:singleLine="true" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/AddFriendMobilePhone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:hint="Mobile Phone"
+                android:inputType="phone"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/AddFriendEmail"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:hint="email"
+                android:inputType="textEmailAddress"
+                android:singleLine="true" >
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/AddFriendAddress"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:hint="address"
+                android:singleLine="true" >
+
+                <requestFocus />
+            </EditText>
+
+            <Button
+                android:id="@+id/AddFriendButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="5dp"
+                android:text="Add!" />
+        </LinearLayout>
     </LinearLayout>
-	<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:addStatesFromChildren="true"
-        android:gravity="center_vertical"
-        android:paddingRight="0dip"
-        android:layout_marginBottom="20dip" 
-        android:background="@android:drawable/edit_text">
 
-        <!--
-            TextView label goes at the left.
-        -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/mobile"
-            android:textColor="?android:attr/textColorSecondary"
-            android:textAppearance="?android:attr/textAppearanceLargeInverse"
-        />
-
-     
-        <EditText
-            android:id="@+id/AddFriendMobilePhone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="phone"
-            android:singleLine="true"
-            android:background="@null"
-        />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:addStatesFromChildren="true"
-        android:background="@android:drawable/edit_text"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="20dip" 
-        android:paddingRight="0dip" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/email"
-            android:textAppearance="?android:attr/textAppearanceLargeInverse"
-            android:textColor="?android:attr/textColorSecondary" />
-
-        <EditText
-            android:id="@+id/AddFriendEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="textEmailAddress"  
-            android:background="@null"
-            android:singleLine="true" >
-
-            <requestFocus />
-        </EditText>
-    </LinearLayout>
-    
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:addStatesFromChildren="true"
-        android:background="@android:drawable/edit_text"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="20dip" 
-        android:paddingRight="0dip" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/address"
-            android:textAppearance="?android:attr/textAppearanceLargeInverse"
-            android:textColor="?android:attr/textColorSecondary" />
-
-        <EditText
-            android:id="@+id/AddFriendAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
-            android:singleLine="true" >
-
-            <requestFocus />
-        </EditText>
-    </LinearLayout>
-    
-    
-    <ImageView 
-      android:layout_height="wrap_content" 
-      android:layout_width="wrap_content" 
-      android:visibility="visible"
-      android:id="@+id/icon" />
-    
-
-
-    <Button
-        android:id="@+id/AddFriendButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="add" />
-    
-    
-    
-    <Button
-        android:id="@+id/TakeIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="take picture" />
-    
-</LinearLayout>
 </ScrollView>
-
-<!-- 
-    <EditText
-        android:id="@+id/addFriendName"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/addFriendButton"
-        android:layout_marginTop="42dp"
-        android:ems="10" >
-
-        <requestFocus />
-    </EditText>
- -->
