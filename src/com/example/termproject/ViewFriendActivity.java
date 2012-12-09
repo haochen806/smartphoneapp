@@ -186,7 +186,7 @@ public class ViewFriendActivity extends Activity {
 			public void onClick(View v) {
 				Intent sentText = new Intent("android.intent.action.SENTTEXT");
 				sentText.putExtra("id", _id);
-				startActivity(sentText);
+				startActivityForResult(sentText,5);
 			}
 		});
         
@@ -318,7 +318,7 @@ public class ViewFriendActivity extends Activity {
 		db.addTmpData(Integer.parseInt(_id), "1", pictureData);
 		new UploadMessage().execute();
 	}
-	
+/*	
 	// Some lifecycle callbacks so that the image can survive orientation change
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -330,7 +330,8 @@ public class ViewFriendActivity extends Activity {
 		// null) );
 		super.onSaveInstanceState(outState);
 	}
-
+	*/
+/*
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
@@ -347,7 +348,7 @@ public class ViewFriendActivity extends Activity {
 		// ImageView.VISIBLE : ImageView.INVISIBLE
 		// );
 	}
-	
+*/	
 	/* @Override
 		public void onCreateContextMenu(ContextMenu menu, View v,
 		    ContextMenuInfo menuInfo) {

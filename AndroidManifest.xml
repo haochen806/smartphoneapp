@@ -15,8 +15,7 @@
   <uses-permission android:name="android.permission.RECORD_AUDIO" />
   <!-- Fine access to location requires this permission.
          This permission implies access coarse location. -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
+  
   
   
     <application

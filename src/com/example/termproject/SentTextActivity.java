@@ -45,7 +45,8 @@ public class SentTextActivity extends Activity {
 				uploader.execute();
 				Intent intent = new Intent("android.intent.action.VIEWFRIEND");
 				intent.putExtra("DBid", intentId);
-				startActivity(intent);
+				setResult(1, intent);        
+				finish();
 			}
 		});
     }

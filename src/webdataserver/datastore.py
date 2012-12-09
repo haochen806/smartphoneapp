@@ -54,7 +54,7 @@ class GetMsgs(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/plain'
         usrname = self.request.get("usrname")
         friendId = self.request.get("friendId")
-        for msg in Message.all().filter('usrname = ',usrname).filter('friendId = ',friendId).order('-date').run():
+        for msg in Message.all().filter('usrname = ',usrname).filter('friendId = ',friendId).order('date').run():
             response = ";".join([str(msg.key().id()),
                                 msg.type]) + "\n"
             self.response.write(response) # return all food item's string property
