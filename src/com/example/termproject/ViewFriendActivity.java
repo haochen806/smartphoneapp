@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.example.termproject.FriendsDatabase.FriendsCursor;
 import com.example.termproject.FriendsDatabase.IconCursor;
-import com.example.termproject.FriendsDatabase.TextMessageCursor;
 import com.example.termproject.FriendsDatabase.TmpCursor;
 
 import android.os.AsyncTask;
@@ -42,16 +41,12 @@ public class ViewFriendActivity extends Activity {
 	
 	FriendsDatabase db;
 	FriendsCursor cursor;
-	//private Cursor elementCursor;
-	//TextView firstName;
-	//TextView lastName;
+
 	TextView userName;
 	TextView emailText;
 	TextView addressText;
 	TextView phoneNumText;
 	String _id;
-	TextMessageCursor textCursor;
-	//ListView messages; 
 	IconCursor iconCursor;
 	byte[] iconData;
 	Bitmap iconBitmap;
@@ -226,7 +221,9 @@ public class ViewFriendActivity extends Activity {
         if(tmpcursor!=null && tmpcursor.getCount()!=0){  
             Log.d("Tag", "post on Resume!");
 
-        	addLayout.removeAllViews();
+        	//addLayout.removeAllViews();
+            imageLayout.removeAllViews();
+            textLayout.removeAllViews();
         	inflateElement(tmpcursor);
         }   
     }
@@ -355,23 +352,23 @@ public class ViewFriendActivity extends Activity {
 		
 		@Override
 	     protected void onPostExecute(String result) {
-	         key = new ArrayList<String>();
+	        /* key = new ArrayList<String>();
 	         type = new ArrayList<String>();
-	         Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
-	     
+	         Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);*/
 	         
-
-
 
 	     }
 		
 	}
-
 	
 	private void inflateElement(TmpCursor tmpcursor){
 		Log.d("inflate","ENTERING ONCE"+tmpcursor.getCount());
 		//ViewFriendActivity.this.setContentView(R.layout.activity_view_friend);
 		//onCreate(null);
+		for(int j = 0; j < imageLayout.getChildCount(); j++ ) {
+			Log.d("childView", imageLayout.getChildAt(j).getClass().getName() + j);
+		}
+		
 		for(int i=tmpcursor.getCount()-1; i>=0;i--){
 			tmpcursor.moveToPosition(i);
 			layoutInflater = getLayoutInflater();
@@ -403,14 +400,15 @@ public class ViewFriendActivity extends Activity {
 				newImgView.invalidate();
 				
 				//mainLayout.addView(newImgView);
+
 				//addLayout.addView(newImgView);
 				Log.d("count",Integer.toString(imageLayout.getChildCount()));
+				
 				imageLayout.addView(newImgView);				
 
+
 			}
-			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.audioType))){
-				
-			}
+		
 		}
 	}
 

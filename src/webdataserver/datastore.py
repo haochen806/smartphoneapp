@@ -3,13 +3,6 @@ import webapp2
 from google.appengine.ext import db
 from google.appengine.ext.webapp import template
 
-class Msg(db.Model):
-    msg = db.StringProperty(
-                required=True)
-    date = db.DateTimeProperty(auto_now_add = True)
-    test = db.StringProperty(required=True)
-
-
 
 class Users(db.Model):
     usrname = db.StringProperty(required = True)
@@ -25,12 +18,9 @@ class Message(db.Model):
 
 class DefaultHandler(webapp2.RequestHandler):
     def get(self):
-        
-        for msg in Msg.all().filter('test = ', 'aaa').filter('test = ','aaa').order('date').run():
-            self.response.write(msg.msg)
+        self.response.write("hello world")
 
-
-
+#upload message
 class PostMessageHandler(webapp2.RequestHandler):
     def post(self):
         usrname = self.request.get("usrname")
@@ -41,7 +31,7 @@ class PostMessageHandler(webapp2.RequestHandler):
         new_message.put()
         self.response.write("OK\n")
 
-
+#response binary data
 class GetBlobHandler(webapp2.RequestHandler):
     def post(self):
         id = self.request.get("id")
@@ -49,6 +39,7 @@ class GetBlobHandler(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'application/octet-stream'
         self.response.write(msg.data)
 
+#response message list
 class GetMsgs(webapp2.RequestHandler):
     def post(self):
         self.response.headers['Content-Type'] = 'text/plain'
@@ -59,7 +50,7 @@ class GetMsgs(webapp2.RequestHandler):
                                 msg.type]) + "\n"
             self.response.write(response) # return all food item's string property
 
-
+#signup
 class SignUpHandler(webapp2.RequestHandler):
     def post(self):
         usrname = self.request.get("usrname")
@@ -77,7 +68,7 @@ class SignUpHandler(webapp2.RequestHandler):
             new_user.put()
             self.response.write("OK\n")
 
-
+#signin
 class SignInHandler(webapp2.RequestHandler):
     def post(self):
         usrname = self.request.get("usrname")
@@ -93,10 +84,5 @@ class SignInHandler(webapp2.RequestHandler):
         else:
             self.response.write("OK\n")
 
-class AddHandler(webapp2.RequestHandler):
-    def get(self):
-        msg = Msg(msg=self.request.get('msg'),test='aaa')
-        msg.put()
-        self.response.out.write('OK')
 
 app = webapp2.WSGIApplication([('/',DefaultHandler),('/add',AddHandler),('/signup',SignUpHandler),('/signin',SignInHandler),('/postmessage',PostMessageHandler),('/getmsgs',GetMsgs),('/getmsgdata',GetBlobHandler)],debug=True)

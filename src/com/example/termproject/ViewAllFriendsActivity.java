@@ -52,7 +52,6 @@ public class ViewAllFriendsActivity extends FragmentActivity {
 
 	private static final String TAG = "ViewAllFriendActivity";
 	
-	static final String[] people = { "Lily", "Lucy", "HanMeimei", "LiLei" };
 	ArrayList<String> array = new ArrayList<String>();
 	ArrayList<Integer> index = new ArrayList<Integer>();
 	ArrayList<String> tmpArray;
@@ -61,10 +60,7 @@ public class ViewAllFriendsActivity extends FragmentActivity {
 	String _id;
 	ListView listV;
 
-	//private TextView mLatLng;
 	private TextView mAddress;
-	//private Button mFineProviderButton;
-	//private Button mBothProviderButton;
 	private ImageView imageLocation;
 	private LocationManager mLocationManager;
 	private Handler mHandler;
@@ -98,14 +94,6 @@ public class ViewAllFriendsActivity extends FragmentActivity {
 
 		setContentView(R.layout.activity_view_all_friends);
 
-		/*Button addFriend = (Button) findViewById(R.id.addFriendButton);
-		addFriend.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				startActivity(new Intent("android.intent.action.ADDFRIEND"));
-			}
-		});*/
 		
 		imageAdd = (ImageView)findViewById(R.id.imageAddFriend);
 		imageAdd.setOnClickListener(new View.OnClickListener() {
@@ -128,20 +116,17 @@ public class ViewAllFriendsActivity extends FragmentActivity {
 			@Override
 			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
 					int arg3) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
 					int arg2, int arg3) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void afterTextChanged(Editable arg0) {
-				// TODO Auto-generated method stub
 				tmpArray.clear();
 				index.clear();
 				String s = arg0.toString().toLowerCase();
@@ -253,21 +238,7 @@ public class ViewAllFriendsActivity extends FragmentActivity {
 			startActivityForResult(anIntent, 11);
 			return true; /* true means: Òwe handled the event */
 		case 1:
-			/*
-			 * AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			 * 
-			 * builder.setMessage(R.string.delete_friend)
-			 * .setPositiveButton(R.string.confirm, new
-			 * DialogInterface.OnClickListener() { public void
-			 * onClick(DialogInterface dialog, int id) {
-			 * db.deleteFriend(Long.parseLong(_id)); } })
-			 * .setNegativeButton(R.string.cancel, new
-			 * DialogInterface.OnClickListener() { public void
-			 * onClick(DialogInterface dialog, int id) { // User cancelled the
-			 * dialog } }); builder.create().show();
-			 */
 			confirmDialog();
-			// db.deleteFriend(Long.parseLong(_id));
 
 			return true;
 		}

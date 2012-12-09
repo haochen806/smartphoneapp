@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
+// pops up a beautiful image and wait for several seconds and redirect to viewallfriendsactivity
 public class WelcomeActivity extends Activity {
 	private static final String Tag = "WelcomeActivity";
 	ImageView pic;
@@ -25,31 +27,7 @@ public class WelcomeActivity extends Activity {
         setContentView(R.layout.activity_welcome);
         Log.d(Tag,"in onCreate welcome");
         
-       // pic = (ImageView)findViewById(R.id.startPic);
-        
-       /* Date date1 = new Date();
-        Date date2 = new Date();
-        while((date2.getTime() - date1.getTime()) < 1000) {
-        	date2 = new Date();
-        	Log.d(Tag, "in create data");
-        }*/
-        
-        //pic.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.start));
-        /*
-        try {
-        	Thread.currentThread().sleep(10000);
-        } catch(Exception e){
-        	Log.e(Tag, e.toString());
-        }
-        */
-       /* date1 = new Date();
-        date2 = new Date();
-        while((date2.getTime() - date1.getTime()) < 5000) {
-        	date2 = new Date();
-        	Log.d(Tag, "in create data 222222");
-        }*/
-        
-        //startActivity(new Intent("android.intent.action.SIGNIN"));
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
