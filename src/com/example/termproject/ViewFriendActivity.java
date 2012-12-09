@@ -83,6 +83,8 @@ public class ViewFriendActivity extends Activity {
 	
 	
 	//set up the layout of the viewfriend
+	//initialize the database for local 
+	//use onResume() to dynammically setup layout
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,8 +99,7 @@ public class ViewFriendActivity extends Activity {
         setContentView(R.layout.activity_view_friend);
         
 
-//       mainLayout = (LinearLayout)findViewById(R.id.layout01);
-//        addLayout = (LinearLayout)findViewById(R.id.layout02);
+
         imageLayout = (LinearLayout)findViewById(R.id.layoutImage);
         textLayout = (LinearLayout)findViewById(R.id.layoutText);
         
@@ -111,23 +112,22 @@ public class ViewFriendActivity extends Activity {
         
         key = new ArrayList<String>();
         type = new ArrayList<String>();
+        
+        
+        //get message list
         Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
-        Log.e("TAG","downloading the data");
         map = Cloud.getMessageData(key, type, db);
         tmpcursor = db.getAllTmpMessage(_id);
         Log.d(TAG, "TMPcount is" + tmpcursor.getCount());
 
 	    
-	    Log.d(TAG, "in view creat" + _id);
 	    
 	    cursor = db.getAFriend(_id);
 	    
 	    
 	   
-	    Log.d(TAG, "?????" + db.hasIcon(Integer.parseInt(_id)));
 	    
 	    if(db.hasIcon(Integer.parseInt(_id))){
-	    	Log.d(TAG,"has icon" + _id);
 	    	iconCursor = db.getIcon(Integer.parseInt(_id));
 	    	iconData = iconCursor.getIconBytes();
 	    	iconBitmap = BitmapFactory.decodeByteArray(iconData,0,iconData.length);
@@ -182,10 +182,9 @@ public class ViewFriendActivity extends Activity {
 
 
     }
-
+    // dynamically programming add messages in view layout
     @Override
     protected void onResume() {
-    	Log.d("finalbugResume", "in on Resume!");
     	super.onResume();
     	tmpcursor = db.getAllTmpMessage(_id);
         
@@ -298,13 +297,10 @@ public class ViewFriendActivity extends Activity {
 		
 	}
 	
+	
+	//fill up two scroll views with messages
 	private void inflateElement(TmpCursor tmpcursor){
-		Log.d("inflate","ENTERING ONCE"+tmpcursor.getCount());
 
-		for(int j = 0; j < imageLayout.getChildCount(); j++ ) {
-			Log.d("childView", imageLayout.getChildAt(j).getClass().getName() + j);
-		}
-		
 		for(int i=tmpcursor.getCount()-1; i>=0;i--){
 			tmpcursor.moveToPosition(i);
 			layoutInflater = getLayoutInflater();
@@ -324,7 +320,6 @@ public class ViewFriendActivity extends Activity {
 
 				
 				byte[] Data = tmpcursor.getData();
-				Log.d("finalbugs", "in inflate image !!!!!!!!!!!"+Data.length);
 				imageBitmap = BitmapFactory.decodeByteArray(Data,0,Data.length);
 				newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);
 				newImgView.setImageBitmap(imageBitmap);
@@ -335,7 +330,6 @@ public class ViewFriendActivity extends Activity {
 				newImgView.invalidate();
 				
 		
-				Log.d("count",Integer.toString(imageLayout.getChildCount()));
 				
 				imageLayout.addView(newImgView);				
 
@@ -348,7 +342,7 @@ public class ViewFriendActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		Log.d("finalbugs", "in on destroy");
+		//drop the temp table
         db.getWritableDatabase().execSQL(this.getString(R.string.drop_tmp_table));
 		super.onDestroy();
 	}	
