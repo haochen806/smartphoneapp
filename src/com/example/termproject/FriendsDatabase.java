@@ -44,12 +44,9 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 	}
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
 		String[] sql = mContext.getString(R.string.create_friends_table).split("\n");
-		//String createSQL = mContext.getString(R.string.create_friends_table);
 		db.beginTransaction();
 		try {
-			//db.execSQL(createSQL);
 			execMultipleSQL(db, sql);
 			db.setTransactionSuccessful();
 		}catch (SQLException e) {
