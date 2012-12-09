@@ -66,6 +66,8 @@ public class ViewFriendActivity extends Activity {
 	private LayoutInflater  layoutInflater;
 	private LinearLayout mainLayout;
 	private LinearLayout addLayout;
+	private LinearLayout imageLayout;
+	private LinearLayout textLayout;
 
 	
 	TmpCursor tmpcursor;
@@ -103,6 +105,8 @@ public class ViewFriendActivity extends Activity {
 
         mainLayout = (LinearLayout)findViewById(R.id.layout01);
         addLayout = (LinearLayout)findViewById(R.id.layout02);
+        imageLayout = (LinearLayout)findViewById(R.id.layoutImage);
+        textLayout = (LinearLayout)findViewById(R.id.layoutText);
         
         mImageView = (ImageView) findViewById(R.id.imageView1);
         mImageBitmap = null;
@@ -463,9 +467,8 @@ public class ViewFriendActivity extends Activity {
 				newTextView.setText(value);
 				//mainLayout.addView(newTextView);
 				
-				addLayout.addView(newTextView);
-				View line = (View)layoutInflater.inflate(R.layout.line, null);
-				addLayout.addView(line);
+				textLayout.addView(newTextView);
+				
 				
 			}
 			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.imageType))){
@@ -476,16 +479,15 @@ public class ViewFriendActivity extends Activity {
 				imageBitmap = BitmapFactory.decodeByteArray(Data,0,Data.length);
 				newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);
 				newImgView.setImageBitmap(imageBitmap);
+				
 				Log.d("HASHCODE",Integer.toString(newImgView.hashCode()));
 				Log.d("imageBitmap",Integer.toString(imageBitmap.hashCode()));
 
 				newImgView.invalidate();
 				
 				//mainLayout.addView(newImgView);
-				addLayout.addView(newImgView);
-				View line = (View)layoutInflater.inflate(R.layout.line, null);
-				addLayout.addView(line);
-
+				imageLayout.addView(newImgView);
+				
 				
 
 			}
