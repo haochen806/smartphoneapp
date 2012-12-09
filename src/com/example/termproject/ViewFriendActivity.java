@@ -210,7 +210,7 @@ public class ViewFriendActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent edit = new Intent("android.intent.action.ADDFRIEND");
 				edit.putExtra("id", _id );
-				startActivity(edit);
+				startActivityForResult(edit, 7);
 			}
 		});
         
@@ -452,7 +452,7 @@ public class ViewFriendActivity extends Activity {
 
 	
 	private void inflateElement(TmpCursor tmpcursor){
-		
+		Log.d("inflate","ENTERING ONCE");
 		for(int i=0; i< tmpcursor.getCount();i++){
 			tmpcursor.moveToPosition(i);
 			if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.meassgeType))){
@@ -464,10 +464,9 @@ public class ViewFriendActivity extends Activity {
 				addLayout.addView(newTextView);
 			}
 			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.imageType))){
-				Log.d(TAG, "in inflate image !!!!!!!!!!!");
-				byte[] Data = tmpcursor.getData();
-				Toast.makeText(this, Integer.toString(Data.length), Toast.LENGTH_LONG).show();
 				
+				byte[] Data = tmpcursor.getData();
+				Log.d(TAG, "in inflate image !!!!!!!!!!!"+Data.length);
 				imageBitmap = BitmapFactory.decodeByteArray(Data,0,Data.length);
 				ImageView newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);		    	
 				newImgView.setImageBitmap(imageBitmap);
