@@ -62,6 +62,10 @@ public class Cloud {
 	}
 	
 	public static String uploadMessage(String userName, int friendId, byte[] data, int type, FriendsDatabase db) {
+		
+		//db.addTmpData(friendId, Integer.toString(type), data); // local db;
+		
+		
 		HttpClient client = new DefaultHttpClient();
 		HttpPost messagePost = new HttpPost(ApplicationConstant.postMessage);
 		HttpResponse messageResponse = null;

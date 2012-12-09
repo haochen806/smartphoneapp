@@ -228,7 +228,7 @@ public class ViewFriendActivity extends Activity {
             Log.d("Tag", "post on Resume!");
 
         	addLayout.removeAllViews();
-    //    	inflateElement(tmpcursor);
+        	inflateElement(tmpcursor);
         }      
     }
     
@@ -237,14 +237,14 @@ public class ViewFriendActivity extends Activity {
 		// TODO Auto-generated method stub
 		Log.d("Tag", "in on Restart!");
 		super.onRestart();
-		
+		/*
 		
         tmpcursor = db.getAllTmpMessage();
         
         if(tmpcursor!=null && tmpcursor.getCount()!=0){       	
         	addLayout.removeAllViews();
         	inflateElement(tmpcursor);
-        }      
+        } */     
 	}
 
 	
@@ -253,12 +253,14 @@ public class ViewFriendActivity extends Activity {
 		// TODO Auto-generated method stub
 		Log.d("Tag", "in on start!");
 		super.onStart();
+		/*
 		 tmpcursor = db.getAllTmpMessage();
 	        
 	        if(tmpcursor!=null && tmpcursor.getCount()!=0){       	
 	        	addLayout.removeAllViews();
 	        	inflateElement(tmpcursor);
-	        }      
+	        }
+	        */      
 	}
 
 	@Override
@@ -313,6 +315,7 @@ public class ViewFriendActivity extends Activity {
 		}
 		mImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 		pictureData = stream.toByteArray();
+		db.addTmpData(Integer.parseInt(_id), "1", pictureData);
 		new UploadMessage().execute();
 	}
 	
