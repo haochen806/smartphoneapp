@@ -1,7 +1,9 @@
 package com.example.termproject;
 
 import android.content.ContentValues;
-
+/*
+ * a Class to store the profile of a friend
+ */
 public class AFriend {
 	private String firstName;
 	private String lastName;

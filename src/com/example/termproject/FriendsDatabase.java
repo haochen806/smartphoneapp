@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQuery;
 import android.util.Log;
 
+/* provide helper functions for our database */
 public class FriendsDatabase extends SQLiteOpenHelper {
 	private static final String TABLE_NAME = "friends";
 	private static final int DATABASE_VERSION = 9;
