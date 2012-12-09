@@ -138,38 +138,34 @@
                 android:background="#33b5e5" >
             </View>
 
-           
-            <Button
-                android:id="@+id/leavemessage"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="leavemessage" />
+                android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/takepicture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="take picture" />
+                <Button
+                    android:id="@+id/takepicture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.50"
+                    android:text="take picture" />
 
-            <Button
-                android:id="@+id/senttext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="sent text" />
-
-            <Button
-                android:id="@+id/edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="edit" />
-
-            <TextView
-                android:id="@+id/tryMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="try"
-                tools:context=".ViewFriendActivity" />
+                <Button
+                    android:id="@+id/senttext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.50"
+                    android:text="sent text" />
+            </LinearLayout>
         </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="#33b5e5" >
+        </View>
 
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -179,8 +175,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
         </LinearLayout>
-
     </LinearLayout>
-
 
 </ScrollView>

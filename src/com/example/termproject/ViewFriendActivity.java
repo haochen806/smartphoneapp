@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -99,6 +100,7 @@ public class ViewFriendActivity extends Activity {
         setContentView(R.layout.activity_view_friend);
         
         //tryPicView = (ImageView)findViewById(R.id.imageTry);
+
         mainLayout = (LinearLayout)findViewById(R.id.layout01);
         addLayout = (LinearLayout)findViewById(R.id.layout02);
         
@@ -140,8 +142,7 @@ public class ViewFriendActivity extends Activity {
 	      
         Button sentText = (Button) findViewById(R.id.senttext);
         Button takePicture = (Button) findViewById(R.id.takepicture);
-        Button leaveMessage = (Button) findViewById(R.id.leavemessage);
-        Button edit = (Button) findViewById(R.id.edit);
+        
         
         //firstName = (TextView)findViewById(R.id.firstNameView);
         //firstName.setText(cursor.getColFirstName());
@@ -167,14 +168,14 @@ public class ViewFriendActivity extends Activity {
         //messages.setAdapter(mAdapter);
        // registerForContextMenu(messages);
         
-        leaveMessage.setOnClickListener(new View.OnClickListener() {
+        /*leaveMessage.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				Intent leaveMessage = new Intent("android.intent.action.RECORDER");
 				startActivity(leaveMessage);
 			}
-		});
+		});*/
         sentText.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -198,7 +199,7 @@ public class ViewFriendActivity extends Activity {
         
 
         
-        edit.setOnClickListener(new View.OnClickListener() {
+        /*edit.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -207,7 +208,7 @@ public class ViewFriendActivity extends Activity {
 				edit.putExtra("id", _id );
 				startActivityForResult(edit, 7);
 			}
-		});
+		});*/
         
 
     }
@@ -369,7 +370,7 @@ public class ViewFriendActivity extends Activity {
 		//onCreate(null);
 		for(int i=tmpcursor.getCount()-1; i>=0;i--){
 			tmpcursor.moveToPosition(i);
-	        layoutInflater = getLayoutInflater();
+			layoutInflater = getLayoutInflater();
 
 			if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.meassgeType))){
 				byte[] Data = tmpcursor.getData();
@@ -377,7 +378,11 @@ public class ViewFriendActivity extends Activity {
 				TextView newTextView = (TextView)layoutInflater.inflate(R.layout.text, null);
 				newTextView.setText(value);
 				//mainLayout.addView(newTextView);
+				
 				addLayout.addView(newTextView);
+				View line = (View)layoutInflater.inflate(R.layout.line, null);
+				addLayout.addView(line);
+				
 			}
 			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.imageType))){
 
@@ -391,8 +396,11 @@ public class ViewFriendActivity extends Activity {
 				Log.d("imageBitmap",Integer.toString(imageBitmap.hashCode()));
 
 				newImgView.invalidate();
+				
 				//mainLayout.addView(newImgView);
 				addLayout.addView(newImgView);
+				View line = (View)layoutInflater.inflate(R.layout.line, null);
+				addLayout.addView(line);
 
 				
 
