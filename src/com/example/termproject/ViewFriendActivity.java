@@ -59,6 +59,7 @@ public class ViewFriendActivity extends Activity {
 	ByteArrayOutputStream stream = new ByteArrayOutputStream();
 	ArrayList<String> key;
 	ArrayList<String> type;
+	ImageView newImgView;
 
 
 	private LayoutInflater  layoutInflater;
@@ -420,11 +421,11 @@ public class ViewFriendActivity extends Activity {
 		
 		@Override
 	     protected void onPostExecute(String result) {
-	         key = new ArrayList<String>();
+	        /* key = new ArrayList<String>();
 	         type = new ArrayList<String>();
 	         Cloud.getMessage(ApplicationConstant.user, Integer.parseInt(_id), key, type);
 	         map = Cloud.getMessageData(key, type, db);
-	         byte[] tryPic = map.get(key.get(0));
+	         byte[] tryPic = map.get(key.get(0)); */
 	         
 	        /* Log.d(TAG, "SIZE IS " + key.size());
 	         
@@ -467,12 +468,15 @@ public class ViewFriendActivity extends Activity {
 				
 				byte[] Data = tmpcursor.getData();
 				Log.d(TAG, "in inflate image !!!!!!!!!!!"+Data.length);
+				Log.d(TAG, "in inflate image i is " + i);
 				imageBitmap = BitmapFactory.decodeByteArray(Data,0,Data.length);
-				ImageView newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);		    	
+				newImgView = (ImageView)layoutInflater.inflate(R.layout.image,null);		    	
 				newImgView.setImageBitmap(imageBitmap);
+				addLayout.addView(newImgView);
+				newImgView = null;
 
 				//mainLayout.addView(newImgView);
-				addLayout.addView(newImgView);
+				
 
 				
 
