@@ -98,7 +98,7 @@ public class ViewFriendActivity extends Activity {
         setContentView(R.layout.activity_view_friend);
         
         //tryPicView = (ImageView)findViewById(R.id.imageTry);
-        layoutInflater = getLayoutInflater();
+        
         mainLayout = (LinearLayout)findViewById(R.id.layout01);
         addLayout = (LinearLayout)findViewById(R.id.layout02);
         
@@ -451,6 +451,7 @@ public class ViewFriendActivity extends Activity {
 		
 		for(int i=0; i< tmpcursor.getCount();i++){
 			tmpcursor.moveToPosition(i);
+			layoutInflater = getLayoutInflater();
 			if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.meassgeType))){
 				byte[] Data = tmpcursor.getData();
 				String value = new String(Data);
