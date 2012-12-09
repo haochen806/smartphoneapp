@@ -1,0 +1,9 @@
+indexes:
+
+- kind: Message
+  ancestor: no
+  properties:
+  - name: friendId
+  - name: usrname
+  - name: date
+    direction: asc
