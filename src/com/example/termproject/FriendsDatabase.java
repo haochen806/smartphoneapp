@@ -13,6 +13,10 @@ import android.database.sqlite.SQLiteQuery;
 import android.util.Log;
 
 /* provide helper functions for our database */
+//Three tables: friends textmessage icon
+//TABLE friends (_id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, phoneNumber TEXT,email TEXT, address TEXT, username TEXT);
+//TABLE textmessage (_id INTEGER PRIMARY KEY AUTOINCREMENT, friendId INTEGER, message TEXT);
+//TABLE icon (_id INTEGER PRIMARY KEY AUTOINCREMENT, friendId INTEGER, icon BLOB);
 public class FriendsDatabase extends SQLiteOpenHelper {
 	private static final String TABLE_NAME = "friends";
 	private static final int DATABASE_VERSION = 9;
@@ -58,7 +62,6 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
 		Log.d(TAG, "OnUpdate!!!!!!");
 		String[] updateSQL = mContext.getString(R.string.update_friends_table).split("\n");
 		db.beginTransaction();
@@ -73,6 +76,7 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 		onCreate(db);
 	}
 	
+	//FriendCursor for accessing friends table
 	public static class FriendsCursor extends SQLiteCursor {
 		private static final String QUERY = "SELECT friends._id, friends.firstName, friends.lastName "  +
 				"FROM friends " +
@@ -127,37 +131,9 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 
 	}
 	
-	public static class TextMessageCursor extends SQLiteCursor {
-
-		private static final String getMessage = "SELECT textmessage._id, textmessage.message " +
-										"FROM textmessage " +
-										"WHERE textmessage.friendId = ";
-		private TextMessageCursor(SQLiteDatabase db, SQLiteCursorDriver driver,
-				String editTable, SQLiteQuery query) {
-			super(db, driver, editTable, query);
-		}
-		
-		private static class Factory implements SQLiteDatabase.CursorFactory {
-
-			@Override
-			public Cursor newCursor(SQLiteDatabase db,
-					SQLiteCursorDriver masterQuery, String editTable,
-					SQLiteQuery query) {
-				// TODO Auto-generated method stub
-				return new TextMessageCursor(db, masterQuery, editTable, query);
-			}
-			
-		}
-		
-		public String getTextMessage() {
-			 return getString(getColumnIndexOrThrow("message"));
-		}
-		
-		public String getColId() {
-	    	  return getString(getColumnIndexOrThrow("_id"));
-	    }
-	}
 	
+
+	// cursor accessing tmptable
 	public static class TmpCursor extends SQLiteCursor {
 
 		private static final String getTmp = "SELECT * " +
@@ -240,7 +216,7 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 	
 	
 	
-	
+	//icon cursor accessing icon table
 	public static class IconCursor extends SQLiteCursor {
 		private static String getIcon = "SELECT * " +
 									"FROM icon "+
@@ -268,26 +244,7 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 		
 	}
 	
-	public void addMessage(int friendId, String message) {
-		ContentValues values = new ContentValues();
-		values.put("friendId", friendId);
-		values.put("message", message);
-		try {
-			getWritableDatabase().insert("textmessage", null, values);
-		} catch(SQLException e) {
-			Log.e("Error writing new message", e.toString());
-		}
-	}
-	
-	public void deleteMessage(int friendId, String message) {
-		String[] whereArgs = new String[]{Integer.toString(friendId), message};
-		try {
-			getWritableDatabase().delete("textmessage", "friendId = ? AND message = ?", whereArgs);
-		} catch(SQLException e) {
-			Log.e("ERROR delete Message", e.toString());
-		}
-	}
-	
+	//icon table helper functions
 	public void addIcon(int friendId, byte[] iconBytes) {
 		ContentValues values = new ContentValues();
 		values.put("friendId", friendId);
@@ -338,6 +295,8 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 		return c;
 	}
 	
+	
+	//firends table helper functions
 	public void addFriend(AFriend aFriend) {
 		ContentValues ele = makeEle(aFriend);
 		ele.put("username", ApplicationConstant.user);
@@ -419,19 +378,9 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 		 return Integer.parseInt(Long.toString(id));
 	 }
 	 
-	 public TextMessageCursor getMessage(int id) {
-		 String sql = TextMessageCursor.getMessage + id;
-		 SQLiteDatabase db = getReadableDatabase();
-		 TextMessageCursor c = (TextMessageCursor)db.rawQueryWithFactory(
-		            new TextMessageCursor.Factory(),
-		            sql,
-		            null,
-		            null);
-		 c.moveToFirst();
-		 return c;
-	 }
+
 	
-	 
+	 //helper function for creating tables
 	 public void execMultipleSQL(SQLiteDatabase db, String[] sql) {
 		 for(String s : sql) {
 			 if(s.trim().length() > 0) {
@@ -441,12 +390,4 @@ public class FriendsDatabase extends SQLiteOpenHelper {
 	 }
 	 
 	 
-	 public void deleteMessage(int _id){
-			String[] whereArgs = new String[]{Integer.toString(_id)};
-			 try{
-		          getWritableDatabase().delete("textmessage", "_id=?", whereArgs);
-		     } catch (SQLException e) {
-		         Log.e("Error deleteing Message", e.toString());
-		     }
-		}
 }

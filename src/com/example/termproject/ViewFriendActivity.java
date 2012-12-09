@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.example.termproject.FriendsDatabase.FriendsCursor;
 import com.example.termproject.FriendsDatabase.IconCursor;
-import com.example.termproject.FriendsDatabase.TextMessageCursor;
 import com.example.termproject.FriendsDatabase.TmpCursor;
 
 import android.os.AsyncTask;
@@ -42,16 +41,12 @@ public class ViewFriendActivity extends Activity {
 	
 	FriendsDatabase db;
 	FriendsCursor cursor;
-	//private Cursor elementCursor;
-	//TextView firstName;
-	//TextView lastName;
+
 	TextView userName;
 	TextView emailText;
 	TextView addressText;
 	TextView phoneNumText;
 	String _id;
-	TextMessageCursor textCursor;
-	//ListView messages; 
 	IconCursor iconCursor;
 	byte[] iconData;
 	Bitmap iconBitmap;
@@ -413,9 +408,7 @@ public class ViewFriendActivity extends Activity {
 
 
 			}
-			else if(tmpcursor.getType().equals(Integer.toString(ApplicationConstant.audioType))){
-				
-			}
+		
 		}
 	}
 
