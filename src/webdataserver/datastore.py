@@ -6,6 +6,8 @@ from google.appengine.ext.webapp import template
 class Msg(db.Model):
     msg = db.StringProperty(
                 required=True)
+    date = db.DateTimeProperty(auto_now_add = True)
+    test = db.StringProperty(required=True)
 
 
 
@@ -18,18 +20,14 @@ class Message(db.Model):
     friendId = db.StringProperty(required = True)
     type = db.StringProperty(required = True)
     data = db.BlobProperty(required = True)
+    date = db.DateTimeProperty(auto_now_add = True)  
 
 
 class DefaultHandler(webapp2.RequestHandler):
     def get(self):
-        msgs = db.GqlQuery('SELECT * FROM Message')
-        users = db.GqlQuery('SELECT * FROM Users')
-        values = {
-            'msgs': msgs,
-            'users':users
-        }
-        self.response.out.write(template.render('helloworld.html',
-                                                values))
+        
+        for msg in Msg.all().filter('test = ', 'aaa').filter('test = ','aaa').order('date').run():
+            self.response.write(msg.msg)
 
 
 
@@ -56,7 +54,7 @@ class GetMsgs(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/plain'
         usrname = self.request.get("usrname")
         friendId = self.request.get("friendId")
-        for msg in Message.all().filter('usrname = ',usrname).filter('friendId = ',friendId).run():
+        for msg in Message.all().filter('usrname = ',usrname).filter('friendId = ',friendId).order('-date').run():
             response = ";".join([str(msg.key().id()),
                                 msg.type]) + "\n"
             self.response.write(response) # return all food item's string property
@@ -97,7 +95,7 @@ class SignInHandler(webapp2.RequestHandler):
 
 class AddHandler(webapp2.RequestHandler):
     def get(self):
-        msg = Msg(msg=self.request.get('msg'))
+        msg = Msg(msg=self.request.get('msg'),test='aaa')
         msg.put()
         self.response.out.write('OK')
 
