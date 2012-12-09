@@ -148,8 +148,7 @@ public class ViewFriendActivity extends Activity {
 	      
         Button sentText = (Button) findViewById(R.id.senttext);
         Button takePicture = (Button) findViewById(R.id.takepicture);
-        Button leaveMessage = (Button) findViewById(R.id.leavemessage);
-        Button edit = (Button) findViewById(R.id.edit);
+        
         
         //firstName = (TextView)findViewById(R.id.firstNameView);
         //firstName.setText(cursor.getColFirstName());
@@ -175,14 +174,14 @@ public class ViewFriendActivity extends Activity {
         //messages.setAdapter(mAdapter);
        // registerForContextMenu(messages);
         
-        leaveMessage.setOnClickListener(new View.OnClickListener() {
+        /*leaveMessage.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				Intent leaveMessage = new Intent("android.intent.action.RECORDER");
 				startActivity(leaveMessage);
 			}
-		});
+		});*/
         sentText.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -206,7 +205,7 @@ public class ViewFriendActivity extends Activity {
         
 
         
-        edit.setOnClickListener(new View.OnClickListener() {
+        /*edit.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -215,7 +214,7 @@ public class ViewFriendActivity extends Activity {
 				edit.putExtra("id", _id );
 				startActivityForResult(edit, 7);
 			}
-		});
+		});*/
         
         //inflateElement(tmpcursor);
 
