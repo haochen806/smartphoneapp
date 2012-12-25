@@ -139,7 +139,22 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
 
-            android:orientation="vertical" >
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/takepicture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.50"
+                android:text="take picture" />
+
+            <Button
+                android:id="@+id/senttext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.50"
+                android:text="sent text" />
+
             
             <ScrollView 
                 android:layout_height="100dp"
@@ -173,6 +188,7 @@
                     
                 </LinearLayout>
             </HorizontalScrollView>
+            
 
         </LinearLayout>
     </LinearLayout>
