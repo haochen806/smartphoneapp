@@ -142,12 +142,7 @@ public class ViewAllFriendsActivity extends FragmentActivity {
 			}
 
 		});
-		// cursor.close();
-		/*
-		 * setListAdapter(new ArrayAdapter<String>(this, R.layout.singlefriend,
-		 * array)); ListView listV = getListView();
-		 * listV.setTextFilterEnabled(true);
-		 */
+		
 		listV.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
